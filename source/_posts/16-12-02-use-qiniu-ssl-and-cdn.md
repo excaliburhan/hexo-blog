@@ -2,7 +2,6 @@
 title: 七牛免费SSL证书，配置自定义域名CDN加速
 date: 2016-12-02
 categories:
-  - node
   - cdn
 ---
 

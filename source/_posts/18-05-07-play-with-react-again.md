@@ -3,7 +3,6 @@ title: 玩玩React，撸一个pwa版本的知乎日报
 date: 2018-05-07
 categories:
   - react
-  - pwa
 ---
 
 ## 前言
