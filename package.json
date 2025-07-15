@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "hexo clean && hexo generate",
+    "build": "hexo clean && hexo generate --config _config.aliyun.yml",
     "clean": "hexo clean",
-    "deploy": "hexo deploy",
+    "deploy": "hexo clean && hexo deploy",
     "server": "hexo server"
   },
   "hexo": {
