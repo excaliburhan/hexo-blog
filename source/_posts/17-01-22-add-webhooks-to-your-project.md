@@ -44,7 +44,7 @@ echo 'finished'
 
 在你的项目中，通过`Settings` -> `Webhooks` -> `Add webhook`进入 webhook 设置页面。我们以下都以 push 事件为例。
 
-![alt](https://static.excaliburhan.com/blog/20170122/Yqhvg8aNP-edKP-2WLADJWRz.jpeg?imageView2/0/w/600)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/Yqhvg8aNP-edKP-2WLADJWRz.jpeg)
 
 `Payload URL`就是 push 之后，请求的 url，我们这是`https://example.com/app`。
 
