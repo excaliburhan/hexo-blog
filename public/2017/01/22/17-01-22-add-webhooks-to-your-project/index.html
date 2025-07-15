@@ -24,7 +24,7 @@
         <link rel="apple-touch-icon" sizes="180x180" href="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/apple-touch-icon-180x180.png" />
 
         <link rel="icon" type="image/x-icon" href="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/favicon.ico" />
-        <link rel="stylesheet" href="/hexo-blog/css/main.css" />
+        <link rel="stylesheet" href="/css/main.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
         
  
@@ -37,7 +37,7 @@
 <nav class="navbar-wrapper">
   <div class="navbar">
     <div class="container clearfix">
-      <a href="/hexo-blog/" class="navbar-logo"><i class="fa fa-github"></i></a>
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
 
       <div class="navbar-search float-left desktop-only">
         <div class="navbar-search-form">
@@ -50,16 +50,16 @@
 
       <ul class="navbar-nav float-left">
         
-        <li><a href="/hexo-blog/archives">Archives</a></li>
+        <li><a href="/archives">Archives</a></li>
         
         
-        <li><a href="/hexo-blog/categories">Categories</a></li>
+        <li><a href="/categories">Categories</a></li>
         
         
-        <li><a href="/hexo-blog/tags">Tags</a></li>
+        <li><a href="/tags">Tags</a></li>
         
         
-        <li class="desktop-only"><a href="/hexo-blog/atom.xml" target="_blank">RSS</a></li>
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
         
       </ul>
 
@@ -83,27 +83,27 @@
   <div class="container header-site-detail">
     <ul class="header-toolbar">
       <li class="clearfix">
-        <a href="/hexo-blog/archives" class="header-toolbar-left"><i
+        <a href="/archives" class="header-toolbar-left"><i
                   class="fa fa-file-text"></i> Posts </a>
-        <a href="/hexo-blog/archives"
+        <a href="/archives"
            class="header-toolbar-right"> 21 </a>
       </li>
       <li>
-        <a href="/hexo-blog/tags" class="header-toolbar-left"><i
+        <a href="/tags" class="header-toolbar-left"><i
                   class="fa fa-tags"></i> Tags </a>
-        <a href="/hexo-blog/tags"
+        <a href="/tags"
            class="header-toolbar-right"> 1 </a>
       </li>
       <li>
-        <a href="/hexo-blog/categories" class="header-toolbar-left"><i
+        <a href="/categories" class="header-toolbar-left"><i
                   class="fa fa-folder-open"></i> Categories </a>
-        <a href="/hexo-blog/categories"
+        <a href="/categories"
            class="header-toolbar-right"> 13 </a>
       </li>
     </ul>
     <h2 class="header-title">
       <i class="fa fa-book text-muted"></i>
-      <a href="/hexo-blog/">韩小平的胡言乱语地</a>
+      <a href="/">韩小平的胡言乱语地</a>
       
       
     </h2>
@@ -147,7 +147,7 @@
 <p>脚本大概的作用就是 cd 到项目目录，拉取最新的代码，build 代码(该步骤不一定需要，如果你的代码直接可以上测试&#x2F;生产环境)。你必须保证，脚本中涉及的环境变量是可用的，比如<code>git</code>，<code>npm</code>等等。</p>
 <p>我们把这个脚本命名为<code>deploy.sh</code>，暂时放在一边，等需要的时候再用。</p>
 <h2 id="设置-Webhooks"><a href="#设置-Webhooks" class="headerlink" title="设置 Webhooks"></a>设置 Webhooks</h2><p>在你的项目中，通过<code>Settings</code> -&gt; <code>Webhooks</code> -&gt; <code>Add webhook</code>进入 webhook 设置页面。我们以下都以 push 事件为例。</p>
-<p><img src="https://static.excaliburhan.com/blog/20170122/Yqhvg8aNP-edKP-2WLADJWRz.jpeg?imageView2/0/w/600" alt="alt"></p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/Yqhvg8aNP-edKP-2WLADJWRz.jpeg" alt="alt"></p>
 <p><code>Payload URL</code>就是 push 之后，请求的 url，我们这是<code>https://example.com/app</code>。</p>
 <p><code>Content type</code>目前有两种，根据 server 提供的来写，我们选择 json 格式的，因为后面的 server 使用的是 json 的。</p>
 <p><code>Secret</code>就是密码了，后面校验的时候需要用到。</p>
@@ -204,7 +204,7 @@
 
 
 
-<script src="/hexo-blog/js/main.js"></script>
+<script src="/js/main.js"></script>
 
 </body>
 </html>
