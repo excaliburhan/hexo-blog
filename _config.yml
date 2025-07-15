@@ -26,7 +26,7 @@ images: images
 
 # source/images/***
 favicon:
-  apple_touch_icon: /apple-touch-icon.png
+  prefix: https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog
 
 # Directory
 source_dir: source
