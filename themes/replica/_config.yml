@@ -1,0 +1,85 @@
+# left-side user profile
+# by default https://octodex.github.com/images/baracktocat.jpg
+avatar: https://avatars.githubusercontent.com/u/4994398
+location:
+email: edwardhjp@gmail.com
+social:
+  github: https://github.com/excaliburhan
+  weibo:
+  linkedin:
+
+# navbar menu
+menu:
+ archives: true
+ tags: true
+ categories: true
+
+rss_dir: atom.xml
+
+# Directory
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+
+# Writing
+new_post_name: :year:month:day-:title.md # File name of new posts
+default_layout: post
+titlecase: false # Transform title into titlecase
+external_link: true # Open external links in new tab
+filename_case: 0
+render_drafts: false
+post_asset_folder: false
+relative_link: false
+future: true
+highlight:
+  enable: true
+  line_number: true
+  auto_detect: false
+  tab_replace:
+
+# Category & Tag
+default_category: uncategorized
+category_map:
+tag_map:
+
+# Date / Time format
+## Hexo uses Moment.js to parse and display date
+## You can customize the date format as defined in
+## http://momentjs.com/docs/#/displaying/format/
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+
+# Pagination
+## Set per_page to 0 to disable pagination
+per_page: 0
+pagination_dir: page
+
+# widget
+ga: # google analytics tracking code UA-XXXXXXX-X
+baidutongji: # baidutongji tracking code
+duoshuo: # duoshuo username
+gcs: # google custom search code
+
+# flagcounter
+flagcounter_href: # https://info.flagcounter.com/xxxx
+flagcounter_img_src: # https://s01.flagcounter.com/xxxx
+
+#marked setting for markdown
+marked:
+  gfm: true
+  pedantic: false
+  sanitize: false
+  tables: true
+  breaks: true
+  smartLists: true
+  smartypants: true
+
+# article_edit 在文章页显示跳转到编辑页
+article_edit:
+  enable: false #是否启用
+  prefix: https://github.com/xxx/xxx/edit/master/source/  #编辑页前缀
