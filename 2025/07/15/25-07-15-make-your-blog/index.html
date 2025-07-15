@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>
+      Hexo 部署博客全过程 | 韩小平的胡言乱语地
+    </title>
+    <meta name="description" content="" />
+    
+      <meta name="keywords" content="
+  site
+  " />
+      
+        <meta name="author" content="excaliburhan" />
+
+        <meta http-equiv="Cache-Control" content="no-transform" />
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <meta name="theme-color" content="#1e2327" />
+        <link rel="apple-touch-icon" href="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/apple-touch-icon-180x180.png" />
+
+        <link rel="icon" type="image/x-icon" href="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/favicon.ico" />
+        <link rel="stylesheet" href="/css/main.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        
+ 
+
+            <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+  <meta name="generator" content="Hexo 7.3.0"></head>
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://avatars.githubusercontent.com/u/4994398"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 21 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 1 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 14 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">韩小平的胡言乱语地</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    excaliburhan
+
+    <span class="post-date float-right" title="{{moment(1752563328000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      
+          <i class="fa fa-pencil-square-o"></i>
+      
+      {{moment(1752563328000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>Hexo 部署博客全过程</h1>
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>node</p>
+<h2 id="搭建-hexo-博客"><a href="#搭建-hexo-博客" class="headerlink" title="搭建 hexo 博客"></a>搭建 hexo 博客</h2><h2 id="hexo-部署"><a href="#hexo-部署" class="headerlink" title="hexo 部署"></a>hexo 部署</h2><h3 id="github-gh-pages"><a href="#github-gh-pages" class="headerlink" title="github gh-pages"></a>github gh-pages</h3><h3 id="hexo-generate（自动更新-webhook）"><a href="#hexo-generate（自动更新-webhook）" class="headerlink" title="hexo generate（自动更新 webhook）"></a>hexo generate（自动更新 webhook）</h3><h2 id="ecs-服务器（阿里云）"><a href="#ecs-服务器（阿里云）" class="headerlink" title="ecs 服务器（阿里云）"></a>ecs 服务器（阿里云）</h2><h3 id="nginx-配置"><a href="#nginx-配置" class="headerlink" title="nginx 配置"></a>nginx 配置</h3><h3 id="ssl-证书（acme-sh）"><a href="#ssl-证书（acme-sh）" class="headerlink" title="ssl 证书（acme.sh）"></a>ssl 证书（acme.sh）</h3><h2 id="图片资源处理"><a href="#图片资源处理" class="headerlink" title="图片资源处理"></a>图片资源处理</h2><h3 id="oss（阿里云）"><a href="#oss（阿里云）" class="headerlink" title="oss（阿里云）"></a>oss（阿里云）</h3><h3 id="cdn（七牛云）-自定义域名"><a href="#cdn（七牛云）-自定义域名" class="headerlink" title="cdn（七牛云）+ 自定义域名"></a>cdn（七牛云）+ 自定义域名</h3>
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://www.excaliburhan.com" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 excaliburhan</li>
+      <li><a href="https://www.excaliburhan.com">Home</a></li>
+      
+      <li><a target="_blank" rel="noopener" href="https://github.com/excaliburhan">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a target="_blank" rel="noopener" href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a target="_blank" rel="noopener" href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

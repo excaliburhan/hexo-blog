@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>
+      从去除百度云大文件下载限制到js的对象监听 | 韩小平的胡言乱语地
+    </title>
+    <meta name="description" content="" />
+    
+      <meta name="keywords" content="
+  
+  " />
+      
+        <meta name="author" content="excaliburhan" />
+
+        <meta http-equiv="Cache-Control" content="no-transform" />
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <meta name="theme-color" content="#1e2327" />
+        <link rel="apple-touch-icon" href="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/apple-touch-icon-180x180.png" />
+
+        <link rel="icon" type="image/x-icon" href="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/favicon.ico" />
+        <link rel="stylesheet" href="/css/main.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        
+ 
+
+            <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+  <meta name="generator" content="Hexo 7.3.0"></head>
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://avatars.githubusercontent.com/u/4994398"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 21 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 1 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 14 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">韩小平的胡言乱语地</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    excaliburhan
+
+    <span class="post-date float-right" title="{{moment(1477929600000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      
+          <i class="fa fa-pencil-square-o"></i>
+      
+      {{moment(1477929600000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>从去除百度云大文件下载限制到js的对象监听</h1>
+    <h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>前几天，一个朋友在微信上问我，Chrome 浏览器审查元素，添加如下代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(<span class="variable language_">this</span>, <span class="string">&#x27;navigator&#x27;</span>, &#123; <span class="attr">value</span>: &#123; <span class="attr">platform</span>: <span class="string">&#x27;&#x27;</span> &#125; &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>效果是去除百度云大文件下载的限制，原因是什么？</p>
+<p>那么，我们就要来看一看<code>Object.defineProperty</code>这个函数了。</p>
+<blockquote>
+<p>Object.defineProperty(obj, prop, descriptor)</p>
+</blockquote>
+<h3 id="传入参数"><a href="#传入参数" class="headerlink" title="传入参数"></a>传入参数</h3><ul>
+<li>obj: 目标对象</li>
+<li>prop: 目标属性</li>
+<li>descriptor: 目标属性所拥有的特性</li>
+</ul>
+<p>前两个参数很好理解，重点是第三个参数 descriptor。</p>
+<h3 id="descriptor"><a href="#descriptor" class="headerlink" title="descriptor"></a>descriptor</h3><p>descriptor 有以下的取值：</p>
+<ul>
+<li>value: 属性值</li>
+<li>writable: 是否可写，只有在 ture 的时候可以重写，否则无法更改值</li>
+<li>configurable: 是否可以设置，总的设置，如果为 false，则无法修改(value, writable, configurable)</li>
+<li>enumerable: 是否可以枚举，为 true 时，可以通过 for…in 循环获取</li>
+<li>get: get 函数</li>
+<li>set: set 函数</li>
+</ul>
+<h2 id="去除百度云限制脚本"><a href="#去除百度云限制脚本" class="headerlink" title="去除百度云限制脚本"></a>去除百度云限制脚本</h2><p>回到最开始的 js 代码，对于浏览器而言，<code>this = window</code>，所以可以理解成，把 navigator.platform 值设置为空，即伪造了 platform 的值。猜想百度云应该通过这个值来限制用户下载大文件的。</p>
+<p>如果只是改变 value 值，那么是否可以用<code>navigator.platform = &#39;&#39;</code>这样的语句改 platform 的值呢？在控制台输入代码可以得到这样的结果：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">navigator.<span class="property">platform</span>; <span class="comment">// &quot;MacIntel&quot; 我的电脑是mac</span></span><br><span class="line">navigator.<span class="property">platform</span> = <span class="string">&#x27;&#x27;</span>; <span class="comment">// &quot;&quot;</span></span><br><span class="line">navigator.<span class="property">platform</span>; <span class="comment">// &quot;MacIntel&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>从结果我们可以推测，navigator 对象的<code>writable = false</code>，<code>configurable = true</code>。</p>
+<p>我自己写了一个 TamperMonkey(油猴)的脚本，如果需要可以拿去使用。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/excaliburhan/LittleScripts/blob/master/DownloadBaiduyunBigFile.js">去除百度云下载限制脚本</a>。</p>
+<p>回过头，来看 descriptor 的 get 和 set 函数。首先，这两个属于访问器属性，不能和 writable 和 value 同时使用，否则会报错。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;&#125;;</span><br><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(obj, <span class="string">&#x27;a&#x27;</span>, &#123;</span><br><span class="line">  <span class="attr">get</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`value is <span class="subst">$&#123;a&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">set</span>: <span class="function">(<span class="params">val</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`new value is <span class="subst">$&#123;val&#125;</span>`</span>);</span><br><span class="line">    a = val;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line">obj.<span class="property">a</span>; <span class="comment">// value is 1, 1</span></span><br><span class="line">obj.<span class="property">a</span> = <span class="number">2</span>; <span class="comment">// new value is 2, 2</span></span><br></pre></td></tr></table></figure>
+
+<p>是不是很酷？这就是实现 js 对象的监听的关键。</p>
+<h2 id="js-的对象监听"><a href="#js-的对象监听" class="headerlink" title="js 的对象监听"></a>js 的对象监听</h2><h3 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h3><ol>
+<li>将需要监听对象 obj 和回调函数 callback 传入构造函数</li>
+<li>遍历对象 obj，通过 Object.defineProperty 将属性全部定义一遍。getter 返回 val，setter 添加 callback</li>
+</ol>
+<h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Watch</span>(<span class="params">obj, callback</span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">callback</span> = callback;</span><br><span class="line"></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">observe</span> = <span class="function">(<span class="params">obj</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> self = <span class="variable language_">this</span>;</span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">keys</span>(obj).<span class="title function_">forEach</span>(<span class="function">(<span class="params">prop</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">let</span> val = obj[prop];</span><br><span class="line">      <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(obj, prop, &#123;</span><br><span class="line">        <span class="attr">get</span>: <span class="function">() =&gt;</span> val,</span><br><span class="line">        <span class="attr">set</span>: <span class="function">(<span class="params">newVal</span>) =&gt;</span> &#123;</span><br><span class="line">          self.<span class="title function_">callback</span>(newVal, val, prop);</span><br><span class="line">          val = newVal;</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">observe</span>(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="demo-代码"><a href="#demo-代码" class="headerlink" title="demo 代码"></a>demo 代码</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">b</span>: <span class="string">&#x27;test&#x27;</span>,</span><br><span class="line">  <span class="attr">c</span>: [<span class="number">1</span>, <span class="number">2</span>],</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params">newVal, oldVal, prop</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`set <span class="subst">$&#123;prop&#125;</span> from <span class="subst">$&#123;oldVal&#125;</span> to <span class="subst">$&#123;newVal&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Watch</span>(obj, fn);</span><br><span class="line"></span><br><span class="line">obj.<span class="property">a</span> = <span class="number">2</span>; <span class="comment">// set a from 1 to 2, 2</span></span><br><span class="line">obj.<span class="property">c</span> = <span class="number">3</span>; <span class="comment">// set c from 1,2 to 3, 3</span></span><br><span class="line">obj.<span class="property">c</span> = [<span class="number">4</span>, <span class="number">5</span>]; <span class="comment">// set c from 3 to 4,5</span></span><br><span class="line">obj.<span class="property">b</span>; <span class="comment">// &quot;test&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上就是一个比较原始的 watch 函数，用于监听 js 对象的变化。当然，这种遍历的方法性能消耗比较大，对于较大的 js 对象并不合适，需要考虑别的实现方法。</p>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://www.excaliburhan.com" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 excaliburhan</li>
+      <li><a href="https://www.excaliburhan.com">Home</a></li>
+      
+      <li><a target="_blank" rel="noopener" href="https://github.com/excaliburhan">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a target="_blank" rel="noopener" href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a target="_blank" rel="noopener" href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

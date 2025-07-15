@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>
+      Firekylin博客优化指南 | 韩小平的胡言乱语地
+    </title>
+    <meta name="description" content="" />
+    
+      <meta name="keywords" content="
+  
+  " />
+      
+        <meta name="author" content="excaliburhan" />
+
+        <meta http-equiv="Cache-Control" content="no-transform" />
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <meta name="theme-color" content="#1e2327" />
+        <link rel="apple-touch-icon" href="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/apple-touch-icon-180x180.png" />
+
+        <link rel="icon" type="image/x-icon" href="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/favicon.ico" />
+        <link rel="stylesheet" href="/css/main.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        
+ 
+
+            <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+  <meta name="generator" content="Hexo 7.3.0"></head>
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://avatars.githubusercontent.com/u/4994398"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 21 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 1 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 14 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">韩小平的胡言乱语地</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    excaliburhan
+
+    <span class="post-date float-right" title="{{moment(1482681600000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      
+          <i class="fa fa-pencil-square-o"></i>
+      
+      {{moment(1482681600000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>Firekylin博客优化指南</h1>
+    <h2 id="Firekylin-博客"><a href="#Firekylin-博客" class="headerlink" title="Firekylin 博客"></a>Firekylin 博客</h2><p>Firekylin 博客是一个基于 ThinkJS 的博客系统，本身对博客的优化已经非常不错，很多资源都已经进行了压缩或者缓存策略。</p>
+<p>但是本着能缓存就要缓存的策略，Firekylin 还是有一点优化空间的，下面就是优化的要点。</p>
+<span id="more"></span>
+
+<h2 id="优化步骤"><a href="#优化步骤" class="headerlink" title="优化步骤"></a>优化步骤</h2><p>首先打开网站首页<a target="_blank" rel="noopener" href="https://excaliburhan.com/">https://excaliburhan.com</a>。右键<code>检查(或者审查元素)</code>，选择<code>Network</code>查看资源加载情况：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/Qr3U3tIre1tW5yiitXRf-coX.jpeg" alt="alt"></p>
+<p>可以看到，加载的资源主要有几种，<code>首页logo</code>，<code>iconfont字体</code>，<code>google统计代码</code>，因为我没有设置首页背景图，如果有，处理应该是和 logo 一致的，这里就不展开了。</p>
+<p>我们首先从<code>首页logo</code>开始。</p>
+<h3 id="处理-logo"><a href="#处理-logo" class="headerlink" title="处理 logo"></a>处理 logo</h3><p>我采用的 logo 已经是压缩过的图片，但是还有 10k 左右的大小，我们的目标是图片加载一律走缓存。</p>
+<p>首先采用了使用 base64 编码的方式，这样图片是会被缓存的。来看一下效果：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/TQ8ArbcBsxN2kl501WgI4DVq.jpeg" alt="alt"></p>
+<p>嗯，很好，图片被缓存了。不过，等等！<code>index.html</code>从原来的 6.8kb 变成了 17.4kb，反而加载的资源大小更大了！究其原因，就是图片从 jpg 转变成 base64 图片，大小变成 12kb 左右，而首页 logo 采用的是 img 标签，等于说 12kb 的文本加载到了<code>index.html</code>中，这显然不是我们需要的。</p>
+<p>如果改成 background 的形式，理论上可以解决，但是加载的大小转移到了 css 样式文件中，1 是没有解决根本问题(base64 本身带来的字节大小)，2 是需要改写博客源代码，成本太高，换另外一种方案。</p>
+<p>由于之前给 Firekylin 提了 mr，现在图片上传可以支持 cdn，而我一直采用的是七牛的 cdn，现在换成七牛 cdn 看看。</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/6f4ngZN4E5q6eMmH5P849w0q.jpeg" alt="alt"></p>
+<p>可以看到图片已经被缓存了，这里图片走的是 cdn 的缓存机制，所以它的有效时间是由 cdn 设置决定的。如果你看的比较仔细，你可以发现<code>index.html</code>的大小也变小了，那是因为我之前忘记截图了，更新新版本的 Firekylin 导致的，看来 Firekylin 也一直在优化呢(笑)。而这里，我们就把它还当作是 6.8kb 吧。</p>
+<h3 id="iconfont"><a href="#iconfont" class="headerlink" title="iconfont"></a>iconfont</h3><p>Firekylin 采用了 iconfont 来处理一些全局用到的图标，首页的菜单会用到这个文件。</p>
+<p>由于这个文件以后可能会有变化，所以 Firekylin 给它添加了<code>?v=</code>的版本信息。</p>
+<p>那这个文件我们要怎么缓存呢，结论是采用 nginx 缓存！其实类似图片如果没有 cdn 的服务，也是可以采用这个方案的，配置大概如下：</p>
+<p>首先在<code>http</code>里配置缓存信息</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">proxy_cache_path</span>   /etc/nginx/proxy_cache levels=<span class="number">1</span>:<span class="number">2</span> keys_zone=pnc:<span class="number">300m</span> inactive=<span class="number">10m</span> max_size=<span class="number">5g</span>;</span><br><span class="line"><span class="attribute">proxy_temp_path</span>    /etc/nginx/proxy_temp;</span><br><span class="line"><span class="attribute">proxy_cache_key</span>    <span class="variable">$host</span><span class="variable">$uri</span><span class="variable">$is_args</span><span class="variable">$args</span>;</span><br></pre></td></tr></table></figure>
+
+<p>然后在<code>server</code>中配置相关的内容，这里我把图片的也贴出来，但是本站实际走的是 cdn 配置，nginx 并不会生效，如果你有需要，可以按照这个进行配置</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span> <span class="regexp">~ .*\.(gif|jpg|jpeg|png)(.*)</span> &#123;</span><br><span class="line">        <span class="attribute">proxy_cache</span>               pnc;</span><br><span class="line">        <span class="attribute">proxy_cache_valid</span>         <span class="number">200</span> <span class="number">304</span> <span class="number">1d</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_valid</span>         any <span class="number">1m</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_lock</span>          <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_lock_timeout</span>  <span class="number">5s</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_use_stale</span>     updating <span class="literal">error</span> timeout   invalid_header http_500 http_502;</span><br><span class="line">        <span class="attribute">etag</span>                      <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">expires</span>                   <span class="number">1d</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="section">location</span> <span class="regexp">~ .*\.(ico|svg|ttf|eot|woff)(.*)</span> &#123;</span><br><span class="line">        <span class="attribute">proxy_cache</span>               pnc;</span><br><span class="line">        <span class="attribute">proxy_cache_valid</span>         <span class="number">200</span> <span class="number">304</span> <span class="number">1y</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_valid</span>         any <span class="number">1m</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_lock</span>          <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_lock_timeout</span>  <span class="number">5s</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_use_stale</span>     updating <span class="literal">error</span> timeout invalid_header http_500 http_502;</span><br><span class="line">        <span class="attribute">etag</span>                      <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">expires</span>                   <span class="number">1y</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意的是，<code>server</code>中的<code>proxy_cache</code>的名称要和<code>http</code>中配置的<code>keys_zone</code>一致。</p>
+<p>上面的<code>server</code>配置，第一条是对常见图片结尾的文件进行一天的缓存，这里不建议把缓存时间定很长，否则你的同路径同名称的图片可能很久都不会改变。第二条就是对字体文件结尾的文件进行一年的缓存。这个可以设置久一些，因为一般这个文件是不会变动的，如果变动，版本信息导致的变动也会让 etag 改变，从而刷新缓存。</p>
+<p>重启 nginx 看下效果：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/vTIfBpqGqt4PEevZNoeVXjKq.jpeg" alt="alt"></p>
+<h3 id="google-统计代码"><a href="#google-统计代码" class="headerlink" title="google 统计代码"></a>google 统计代码</h3><p>下面就是 google 的统计代码了。由于是异步获取的 google 官方的 analytics.js 文件，其实对于网站加载是完全没有影响的。而 google 设置的缓存时间是 2 小时，这个时间太短了，以至于 google 自己的官方检测给出的意见是提高该 js 的缓存时间- -，检测的地址是:</p>
+<p><a target="_blank" rel="noopener" href="https://developers.google.com/speed/pagespeed/insights/">https://developers.google.com/speed/pagespeed/insights/</a></p>
+<p>那么对于这个 js 文件怎么办呢？分析一下，主要有两点，一是延长 js 的缓存时间，而是保证 js 是最新的。</p>
+<p>google 官方是提供自定义请求来达到统计功能的，<a target="_blank" rel="noopener" href="https://imququ.com/post/summary-of-my-blog-optimization.html">屈屈的零散优化点汇总</a>这篇文章就是采用这个方法的。</p>
+<p>但是这个方法有一定的局限性，一是需要改写服务端的代码，添加统计逻辑，二是你的服务器必须能 ping 通 google 的 api 地址，所以说并不太实用。</p>
+<p>我这里采用了<code>nginx缓存</code>+<code>定时任务</code>将 google 统计代码本地化，从而达到优化的目的。</p>
+<p>首先，当然是 nginx 缓存配置：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span> <span class="regexp">~* (analytics\.js)$</span> &#123;</span><br><span class="line">        <span class="attribute">alias</span>                     /path-to-static/analytics.js;</span><br><span class="line">        <span class="attribute">proxy_cache</span>               pnc;</span><br><span class="line">        <span class="attribute">proxy_cache_valid</span>         <span class="number">200</span> <span class="number">304</span> <span class="number">7d</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_valid</span>         any <span class="number">1m</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_lock</span>          <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_lock_timeout</span>  <span class="number">5s</span>;</span><br><span class="line">        <span class="attribute">proxy_cache_use_stale</span>     updating <span class="literal">error</span> timeout invalid_header http_500 http_502;</span><br><span class="line">        <span class="attribute">etag</span>                      <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">expires</span>                   <span class="number">7d</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于 Firekylin 的路由是用来做 post 的，所以需要一个 alias 的设置，将<code>path-to-static</code>替换成你存放的目录即可。我这里设置的缓存时间是一周，你也可以根据需要改变这个时间，但是不宜过长。</p>
+<p>这样我们得到了一个本地的 analytics.js，但是它不会自动更新文件，这时候就需要定时任务了。</p>
+<p><code>crontab -e</code>添加定时任务如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 * * 0 wget https://www.google-analytics.com/analytics.js -O /path-to-static/analytics.js</span><br></pre></td></tr></table></figure>
+
+<p>我这里设置的是每周日 0 点自动去 wget 需要的 analytics.js，替换自己目录的该文件。你也可以根据自己的缓存时间来编写自己的定时任务。</p>
+<p>配置结束，来看下效果：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/t-ewsBrXtS7W0jbTdb65-BfN.jpeg" alt="alt"></p>
+<p>放下初次加载没有缓存的对比图：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/eNZcJtpm9cUe6WzW0h9x5bP5.jpeg" alt="alt"></p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>看我截图的加载时间，发现缓存之后，<code>index.html</code>有时候会加载比较久的时间，这是和网络相关的。但是，可以确定的是，走缓存的资源都是秒加载的，是不是很爽？</p>
+<p>如果你也用 Firekylin 的博客，可以按照这个方法进行下优化，如果不是这个博客系统，一些方法也可以参考。如果你有什么意见或建议，欢迎一起探讨～</p>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://www.excaliburhan.com" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 excaliburhan</li>
+      <li><a href="https://www.excaliburhan.com">Home</a></li>
+      
+      <li><a target="_blank" rel="noopener" href="https://github.com/excaliburhan">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a target="_blank" rel="noopener" href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a target="_blank" rel="noopener" href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>
