@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    VSCODE插件初体验 | 韩小平的胡言乱语地
+  </title>
+  <meta name="description" content="">
+  
+  <meta name="keywords" content="
+  
+  ">
+  
+  <meta name="author" content="excalirbuhan">
+
+  <meta http-equiv="Cache-Control" content="no-transform"/>
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://avatars.githubusercontent.com/u/4994398"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 20 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 13 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">韩小平的胡言乱语地</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    excalirbuhan
+
+    <span class="post-date float-right" title="{{moment(1486915200000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      
+          <i class="fa fa-pencil-square-o"></i>
+      
+      {{moment(1486915200000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>VSCODE插件初体验</h1>
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用 vscode 也有大半年时间了，从一开始的各种问题到现在渐渐好用。插件维护比 sublime 好，速度能秒 atom，这大概就是现在离不开 vscode 的原因吧。虽然它还有不少问题，比如代码高亮和智能提示，尤其是在 vue 这种 template 文件中，完全没有用！</p>
+<span id="more"></span>
+
+<p>不过今天不是来吐槽这个的。虽然说到 vscode 的插件比 sublime 维护方便，但是插件数量还是比不上的，毕竟时间还不长。比如我一直很喜欢的作者信息生成的插件，什么名字忘记了，毕竟卸载好久了…主要就是设置了作者姓名，邮箱这些信息之后，在顶部自动生成包括作者&#x2F;邮箱&#x2F;时间还有其他自定义的信息。</p>
+<p>在 vscode 插件市场找了半天也没找到，决定自己动手撸一个。</p>
+<ul>
+<li>项目地址：<a target="_blank" rel="noopener" href="https://github.com/excaliburhan/vscode-author-generator">https://github.com/excaliburhan/vscode-author-generator</a>。</li>
+<li>插件安装：vscode 或者市场搜索<code>vscode-author-generator</code>。</li>
+</ul>
+<h2 id="需求准备"><a href="#需求准备" class="headerlink" title="需求准备"></a>需求准备</h2><p>首先，确定下这个插件的需求：</p>
+<ul>
+<li>自动生成作者信息，部分信息(作者&#x2F;邮箱)可配置。</li>
+<li>根据文件类型生成不同注释。</li>
+<li>支持自定义模版。</li>
+</ul>
+<h2 id="其他准备"><a href="#其他准备" class="headerlink" title="其他准备"></a>其他准备</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/extensionAPI/vscode-api">vscode api 文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/tools/vscecli">vscecli 文档</a></li>
+</ul>
+<p>这两个文档在之后的开发会用到，下面会讲到。</p>
+<h2 id="开发插件"><a href="#开发插件" class="headerlink" title="开发插件"></a>开发插件</h2><h3 id="1-vscecli-信息"><a href="#1-vscecli-信息" class="headerlink" title="1. vscecli 信息"></a>1. vscecli 信息</h3><p>由于后面生成项目要用到发布者信息，我就把 vscecli 的生成发布者信息部分先讲了，当然后面发布还要用到它。下面是生成发布者信息的步骤，最好还是按照 vscecli 的文档来做。</p>
+<ul>
+<li>安装：<code>npm install -g vsce</code></li>
+<li>创建：<code>vsce create-publisher (publisher name)</code> (publisher name 就是发布者的名字，是你在 visualstudio 注册的名字，此外你还需要 Personal Access Token)</li>
+<li>登陆：<code>vsce login (publisher name)</code> (这一步会要求你输入发布者名字和 Personal Access Token)</li>
+</ul>
+<p>至此，本地会记住你的信息，如果你需要更换用户，也可以使用<code>vsce logout</code>登出，并换账号登陆。</p>
+<h3 id="2-生成项目"><a href="#2-生成项目" class="headerlink" title="2. 生成项目"></a>2. 生成项目</h3><p>这里我使用了官方的 generator，生成必要的<code>package.json</code>信息，如果你自己去写，可以参看<a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/extensionAPI/extension-manifest">官网文档</a>。</p>
+<ul>
+<li><code>npm install -g yo generator-code &amp;&amp; yo code</code></li>
+</ul>
+<p><img src="https://static.excaliburhan.com/blog/20170213/COWO3NSOempfVbg695QfgHSA.jpeg" alt="alt"></p>
+<p>可以看到，提供了几种基本插件&#x2F;主题编写的模版，由于我没学过 typescript，这里选择了 javascript 的插件。</p>
+<p>按部就班填写信息，如果你已经在上一步登陆<code>vsce</code>，这里的 publisher name 是自动填写的，你也可以手动填写，但保持和你的注册用户名一致。</p>
+<p><img src="https://static.excaliburhan.com/blog/20170213/_YPzqd-46NhRNCdsNROv3yY_.jpeg" alt="alt"></p>
+<p>确认后，会自动使用 npm 安装依赖，耐心等待一会，项目就生成完毕。</p>
+<p>我这里没有让它自动生成 git 项目，可以通过<code>git remote add</code>添加你自己的 github 仓库地址。</p>
+<p><img src="https://static.excaliburhan.com/blog/20170213/4ez3C47KiN2xLoqOAcJ-AKNL.jpeg" alt="alt"></p>
+<p>生成的项目结构大概是这样的，由于功能比较简单，这里只要关心<code>extension.js</code>就可以了，这是我们的主要功能 js。</p>
+<h3 id="3-manifest-解释"><a href="#3-manifest-解释" class="headerlink" title="3. manifest 解释"></a>3. manifest 解释</h3><p>vscode 的 manifest 文件，也就是<code>package.json</code>文件，先来看看默认生成的：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;vscode-test&quot;</span><span class="punctuation">,</span> <span class="comment">// 插件名字</span></span><br><span class="line">  <span class="attr">&quot;displayName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;vscode-test&quot;</span><span class="punctuation">,</span> <span class="comment">// 插件显示名字</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;test&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.0.1&quot;</span><span class="punctuation">,</span> <span class="comment">// 插件版本</span></span><br><span class="line">  <span class="attr">&quot;publisher&quot;</span><span class="punctuation">:</span> <span class="string">&quot;edwardhjp&quot;</span><span class="punctuation">,</span> <span class="comment">// 发布者</span></span><br><span class="line">  <span class="attr">&quot;engines&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;vscode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^1.5.0&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;categories&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;Other&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;activationEvents&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;onCommand:extension.sayHello&quot;</span> <span class="comment">// 激活事件，onCommand表示command调用，就是在vscode用`cmd + shift + p`调出来后使用，其他的参看文档。</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;main&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./extension&quot;</span><span class="punctuation">,</span> <span class="comment">// 入口文件</span></span><br><span class="line">  <span class="attr">&quot;contributes&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;commands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;extension.sayHello&quot;</span><span class="punctuation">,</span> <span class="comment">// `cmd + shift + p`实际执行的command，和上面的激活事件要对应</span></span><br><span class="line">        <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Hello World&quot;</span> <span class="comment">// `cmd + shift + p`调用显示名字</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;postinstall&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node ./node_modules/vscode/bin/install&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;test&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node ./node_modules/vscode/bin/test&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;devDependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;typescript&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^2.0.3&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;vscode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^1.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;mocha&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^2.3.3&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;eslint&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^3.6.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;@types/node&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^6.0.40&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;@types/mocha&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^2.2.32&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>基本解释都写在注释里了，根据自己需要修改吧。</p>
+<h3 id="4-extension-js-编写"><a href="#4-extension-js-编写" class="headerlink" title="4. extension.js 编写"></a>4. extension.js 编写</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vscode = <span class="built_in">require</span>(<span class="string">&#x27;vscode&#x27;</span>); <span class="comment">// 包含vscode所有api的模块</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">activate</span>(<span class="params">context</span>) &#123;</span><br><span class="line">  <span class="comment">// 插件激活事件，必须与package.json的对应</span></span><br><span class="line">  <span class="keyword">var</span> disposable = vscode.<span class="property">commands</span>.<span class="title function_">registerCommand</span>(<span class="string">&#x27;extension.sayHello&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// Info信息框</span></span><br><span class="line">    vscode.<span class="property">window</span>.<span class="title function_">showInformationMessage</span>(<span class="string">&#x27;Hello World!&#x27;</span>);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  context.<span class="property">subscriptions</span>.<span class="title function_">push</span>(disposable);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">activate</span> = activate;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取消插件激活事件</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">deactivate</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"><span class="built_in">exports</span>.<span class="property">deactivate</span> = deactivate;</span><br></pre></td></tr></table></figure>
+
+<p>官方的 js 文件，就是在调用的时候弹一个<code>Hello World!</code>的提示框。原则上你的逻辑都应该在<code>registerCommand</code>的 function 里面。如果你的逻辑很复杂，建议把逻辑移到外面，合理解构代码。</p>
+<p>你可以在 vscode 打开项目的目录文件，然后使用<code>F5</code>进行 debug 模式，vscode 会起一个扩展主机给你进行开发。</p>
+<p>但是我的 vscode 不知道什么原因，扩展主机一直失败。我都是直接把项目拷贝到本地插件目录进行开发的，每次 debug 都要重启 vscode，说多了都是泪～</p>
+<p>如果你知道怎么解决，请告诉我！</p>
+<h3 id="5-插件发布"><a href="#5-插件发布" class="headerlink" title="5. 插件发布"></a>5. 插件发布</h3><p>又要用到刚才的 vscecli 了。</p>
+<p>在项目根目录使用：<code>vsce package</code>打包你的插件，会生成一个<code>extensionName-version.vsix</code>的信息文件。</p>
+<p>然后：<code>vsce publish</code>，进行发布，如果成功，会返回类似内容：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Successfully</span> published publisherName.<span class="property">extensionName</span>@version!</span><br></pre></td></tr></table></figure>
+
+<h2 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h2><p>好了，现在你可以在 vscode 市场搜索你自己上传的插件了。祝大家写得愉快！</p>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://www.excaliburhan.com" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 excalirbuhan</li>
+      <li><a href="https://www.excaliburhan.com">Home</a></li>
+      
+      <li><a target="_blank" rel="noopener" href="https://github.com/excaliburhan">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a target="_blank" rel="noopener" href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a target="_blank" rel="noopener" href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

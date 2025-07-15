@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    用nw.js制作一个自己的markdown app | 韩小平的胡言乱语地
+  </title>
+  <meta name="description" content="">
+  
+  <meta name="keywords" content="
+  
+  ">
+  
+  <meta name="author" content="excalirbuhan">
+
+  <meta http-equiv="Cache-Control" content="no-transform"/>
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://avatars.githubusercontent.com/u/4994398"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 20 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 13 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">韩小平的胡言乱语地</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    excalirbuhan
+
+    <span class="post-date float-right" title="{{moment(1475942400000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      
+          <i class="fa fa-pencil-square-o"></i>
+      
+      {{moment(1475942400000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>用nw.js制作一个自己的markdown app</h1>
+    <h2 id="1-什么是-nw-js"><a href="#1-什么是-nw-js" class="headerlink" title="1. 什么是 nw.js"></a>1. 什么是 nw.js</h2><p>nw.js，前身 nodeWebkit，顾名思义，是基于 node+webkit 运行的。加上支持各类 npm 包，可以让前端很容易通过 HTML 和 JavaScript 制作属于自己的客户端 app。</p>
+<h2 id="2-开始使用-nw-js"><a href="#2-开始使用-nw-js" class="headerlink" title="2. 开始使用 nw.js"></a>2. 开始使用 nw.js</h2><p>首先，你需要下载<a target="_blank" rel="noopener" href="http://nwjs.io/">nw.js</a>。一般来说，开发 app 的时候需要下载 sdk 版本，集成了 devtool，方便调试。而生产环境则应该使用 normal 版本，因为它更小巧灵活。</p>
+<p>以我使用的 v0.17.4(Mac 版本为例，下同)为例，将你下载的放入你的开发目录，如 nwjs 目录下。新建一个 package.json，熟悉 npm 的应该都知道，这是一个配置 json 文件，而 nw.js 需要这个文件提供必要的信息。以下是我的 markdown 编辑器(LittleMD，以下用 LittleMD 作指代)的配置信息。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;main&quot;</span><span class="punctuation">:</span> <span class="string">&quot;index.html&quot;</span><span class="punctuation">,</span> <span class="comment">// 入口文件</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;LittleMD&quot;</span><span class="punctuation">,</span> <span class="comment">// 名称</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.0.2&quot;</span><span class="punctuation">,</span> <span class="comment">// 版本号</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;a markdown app via nwjs&quot;</span><span class="punctuation">,</span> <span class="comment">// 描述</span></span><br><span class="line">  <span class="attr">&quot;window&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="comment">// nw.js窗口配置</span></span><br><span class="line">    <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="string">&quot;LittleMD&quot;</span><span class="punctuation">,</span> <span class="comment">// 入口html的title不存在时，则使用这个</span></span><br><span class="line">    <span class="attr">&quot;icon&quot;</span><span class="punctuation">:</span> <span class="string">&quot;icon.png&quot;</span><span class="punctuation">,</span> <span class="comment">// icon</span></span><br><span class="line">    <span class="attr">&quot;toolbar&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 是否隐藏窗口的工具条</span></span><br><span class="line">    <span class="attr">&quot;frame&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 是否显示外层的框架，如最大化最小化</span></span><br><span class="line">    <span class="attr">&quot;position&quot;</span><span class="punctuation">:</span> <span class="string">&quot;center&quot;</span><span class="punctuation">,</span> <span class="comment">// 初始化位置</span></span><br><span class="line">    <span class="attr">&quot;width&quot;</span><span class="punctuation">:</span> <span class="number">1000</span><span class="punctuation">,</span> <span class="comment">// 初始化宽度</span></span><br><span class="line">    <span class="attr">&quot;height&quot;</span><span class="punctuation">:</span> <span class="number">800</span> <span class="comment">// 初始化高度</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="comment">// 各类依赖</span></span><br><span class="line">    <span class="attr">&quot;emojify.js&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^1.1.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;gulp-less&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^3.1.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;highlight.js&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^9.7.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;jquery&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^3.1.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;marked&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.3.6&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;phantom-html2pdf&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^3.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;phantomjs-prebuilt&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^2.1.12&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;qiniu&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^6.1.11&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;taboverride&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^4.0.3&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，<code>package.json</code> 和 npm 包的配置很像，所以上手也很快，只要记得配置相关的 nw.js 的配置即可，更多配置请看<a target="_blank" rel="noopener" href="http://docs.nwjs.io/en/latest/References/Manifest%20Format/#manifest-format">Manifest 文档</a>。</p>
+<p>然后，新建一个 index.html，与 package.json 的入口路径一致，恭喜你，你已经拥有了一个最简单的 app。</p>
+<p>当然，此时打开 nwjs.app，只会看到一片空白，因为 html 内容就是空白的。你需要编辑 html 文件让它呈现内容。当然，在此之前，我们首先建立几个基本目录，构建我们的项目目录。一般来说，需要 js&#x2F;css&#x2F;images，分别存放 js 文件&#x2F;css 文件&#x2F;图片资源文件，最后的结构如图。</p>
+<p><img src="https://o2znrmehg.qnssl.com/ghost/2016/10/09/qq20161009-0-2x-1475999110974.png?imageView2/1/w/300" alt="alt"></p>
+<p>至此，我们的 app 项目已经有了一个雏形。</p>
+<h2 id="3-制作一个-markdown"><a href="#3-制作一个-markdown" class="headerlink" title="3. 制作一个 markdown"></a>3. 制作一个 markdown</h2><p>经过上一步之后，我们已经有了基本的项目结构了。下面就是着手编辑我们的入口文件 <code>index.html</code> 。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>LittleMD.md<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;/css/style.css&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;body&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">id</span>=<span class="string">&quot;editor&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;preview&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;/app.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>style.css</code> 就是我们的样式文件，<code>app.js</code> 就是我们所需要的 js 文件。我建议把 <code>app.js</code> 放在 body 后，而 head 之间，我们还需要初始化一些 nw.js 的内容。</p>
+<p>editor 是 LittleMD 的编辑框，preview 则是预览区。</p>
+<p>接下来，编写 css，让 LittleMD 有编辑器的样子。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">font-family</span>: PingFang SC, Hiragino Sans GB, Microsoft Yahei, WenQuanYi Micro Hei, sans-serif;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#body</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#editor</span> &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">5px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#f9f9f5</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#2d2d2d</span>;</span><br><span class="line">  <span class="attribute">resize</span>: none;</span><br><span class="line">  <span class="attribute">outline</span>: none;</span><br><span class="line">  <span class="attribute">border</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-id">#preview</span> &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">overflow-y</span>: scroll;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>你可以采用浮动，然后左右各占 50%的写法，不过我建议还是采用 flex 布局。1 是更加简单，2 是方便以后扩展(比如增加行号显示)。而且，既然是 webkit 的内核，你都不需要考虑兼容性，这是 nw.js 很棒的一点。</p>
+<p>现在打开 nwjs.app，你可以看到一个有界面的 app 了，虽然它还没有功能。</p>
+<p><img src="https://o2znrmehg.qnssl.com/ghost/2016/10/09/qq20161009-1-2x-1476000546973.png?imageView2/1/w/600" alt="alt"></p>
+<p>现在，编写你的 js 文件。我喜欢采用 <code>app.js</code> 作为入口 js 的做法，这样可以让你更少地修改 <code>index.html</code> 。利用 require 各个功能 js 的做法，利于你将功能分块。</p>
+<p><code>app.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> main = <span class="built_in">require</span>(<span class="string">&#x27;./js/main.js&#x27;</span>);</span><br><span class="line">main.<span class="title function_">init</span>();</span><br></pre></td></tr></table></figure>
+
+<p>此外，我们需要 main.js，负责页面初始化；editor.js，负责编辑器功能。</p>
+<p><code>main.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> editor = <span class="built_in">require</span>(<span class="string">&#x27;./editor.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="title function_">init</span>(<span class="params"></span>) &#123;</span><br><span class="line">    $(() =&gt; &#123;</span><br><span class="line">      $(<span class="string">&#x27;#editor&#x27;</span>).<span class="title function_">bind</span>(<span class="string">&#x27;input click&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// reload</span></span><br><span class="line">        editor.<span class="title function_">reload</span>();</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>editor.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> marked = <span class="built_in">require</span>(<span class="string">&#x27;marked&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> $ = <span class="variable language_">global</span>.<span class="property">$</span>;</span><br><span class="line"><span class="keyword">const</span> hljs = <span class="variable language_">global</span>.<span class="property">hljs</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="title function_">reload</span>(<span class="params"></span>) &#123;</span><br><span class="line">    marked.<span class="title function_">setOptions</span>(&#123;</span><br><span class="line">      <span class="attr">highlight</span>: <span class="function">(<span class="params">code</span>) =&gt;</span> hljs.<span class="title function_">highlightAuto</span>(code).<span class="property">value</span>,</span><br><span class="line">      <span class="attr">gfm</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">tables</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">breaks</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">pedantic</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">sanitize</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">smartLists</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">smartypants</span>: <span class="literal">false</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">const</span> preview = $(<span class="string">&#x27;#preview&#x27;</span>);</span><br><span class="line">    <span class="keyword">const</span> editorDom = $(<span class="string">&#x27;#editor&#x27;</span>);</span><br><span class="line">    <span class="keyword">const</span> text = editorDom.<span class="title function_">val</span>();</span><br><span class="line">    preview.<span class="title function_">html</span>(<span class="title function_">marked</span>(text));</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>可能你也注意到了，我在 editor.js 中引入了一个 marked，这是一个 npm 包，是一个 markdown 语法的解析器。需要先使用 <code>npm install marked</code> 进行安装。此外，我还引入了 <code>jquery</code> 和 <code>highlight.js</code> 两个库，需要在 index.html 的 head 标签中引入。</p>
+<p>个人建议，新建一个 vendors 目录用来存放引入的库文件，和自己的 js 进行区分。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;/vendors/jquery-3.1.0.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;/vendors/highlight.pack.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">global</span>.<span class="property">gui</span> = <span class="built_in">require</span>(<span class="string">&#x27;nw.gui&#x27;</span>); <span class="comment">// nw.js的gui界面</span></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">global</span>.<span class="property">window</span> = <span class="variable language_">window</span>;</span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">global</span>.<span class="property">$</span> = $;</span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">global</span>.<span class="property">hljs</span> = hljs;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>现在打开 nwjs.app，你会发现，你在编辑框输入，预览区会实时更新内容。当然，现在预览区的样式还十分简陋，你可以根据自己需要编写它的样式。</p>
+<h2 id="4-如何-debug"><a href="#4-如何-debug" class="headerlink" title="4. 如何 debug"></a>4. 如何 debug</h2><p>开发 app 的时候，免不了需要 debug。根据官方的 devtool 使用方法，你可以在 app.js 中 <code>init()</code> 函数前加入如下代码。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> gui = <span class="built_in">require</span>(<span class="string">&#x27;nw.gui&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> win = gui.<span class="property">Window</span>.<span class="title function_">get</span>();</span><br><span class="line">win.<span class="title function_">showDevTools</span>();</span><br></pre></td></tr></table></figure>
+
+<p>这样，你就会在打开 nwjs.app 的同时打开一个 dev 窗口了。</p>
+<h2 id="5-更多的-features"><a href="#5-更多的-features" class="headerlink" title="5. 更多的 features"></a>5. 更多的 features</h2><p>显然，这是的 LittleMD 是十分简陋的，我们需要加入更多的功能。这里，我对一些功能的实现提供一点思路。</p>
+<ul>
+<li>菜单</li>
+</ul>
+<p>作为一个编辑器，我们还是需要基本的菜单的。参照 nw.js 的<a target="_blank" rel="noopener" href="http://docs.nwjs.io/en/latest/References/Menu/">菜单文档</a>。建立一个 <code>menu.js</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="title function_">openFile</span>(<span class="params"></span>) &#123;</span><br><span class="line">    editor.<span class="title function_">chooseFile</span>(<span class="string">&#x27;#openFile&#x27;</span>, <span class="function"><span class="params">filename</span> =&gt;</span> &#123;</span><br><span class="line">      editor.<span class="title function_">loadFile</span>(filename)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="title function_">initMenu</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> win = <span class="variable language_">global</span>.<span class="property">gui</span>.<span class="property">Window</span>.<span class="title function_">get</span>()</span><br><span class="line">    <span class="keyword">const</span> menubar = <span class="keyword">new</span> <span class="variable language_">global</span>.<span class="property">gui</span>.<span class="title class_">Menu</span>(&#123; <span class="attr">type</span>: <span class="string">&#x27;menubar&#x27;</span> &#125;)</span><br><span class="line">    <span class="keyword">const</span> fileMenu = <span class="keyword">new</span> <span class="variable language_">global</span>.<span class="property">gui</span>.<span class="title class_">Menu</span>()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// for Mac</span></span><br><span class="line">    menubar.<span class="title function_">createMacBuiltin</span>(<span class="string">&#x27;LittleMD&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    fileMenu.<span class="title function_">append</span>(<span class="keyword">new</span> <span class="variable language_">global</span>.<span class="property">gui</span>.<span class="title class_">MenuItem</span>(&#123;</span><br><span class="line">      <span class="attr">label</span>: <span class="string">&#x27;Open...&#x27;</span>,</span><br><span class="line">      <span class="attr">click</span>: <span class="variable language_">this</span>.<span class="property">openFile</span>,</span><br><span class="line">      <span class="attr">modifiers</span>: <span class="string">&#x27;cmd&#x27;</span>,</span><br><span class="line">      <span class="attr">key</span>: <span class="string">&#x27;o&#x27;</span>,</span><br><span class="line">    &#125;))</span><br><span class="line">    ... <span class="comment">// other code</span></span><br><span class="line">    menubar.<span class="title function_">append</span>(<span class="keyword">new</span> <span class="variable language_">global</span>.<span class="property">gui</span>.<span class="title class_">MenuItem</span>(&#123;</span><br><span class="line">      <span class="attr">label</span>: <span class="string">&#x27;File&#x27;</span>,</span><br><span class="line">      <span class="attr">submenu</span>: fileMenu,</span><br><span class="line">    &#125;))</span><br><span class="line">    win.<span class="property">menu</span> = menubar</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>createMacBuiltin</code> 方法会建立一些常用的 Mac 界面菜单，上例中，我又加入了一个打开文件的菜单，其他功能与此类似。</p>
+<p>这里简单介绍下打开文件的实现，利用了 nw.js 提供的 html5 的功能。首先，你需要在 <code>index.html</code> 中加入一个隐藏的 input，如下例子。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">style</span>=<span class="string">&quot;display: none;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;openFile&quot;</span> <span class="attr">type</span>=<span class="string">&quot;file&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在 <code>editor.js</code> 中加入 <code>chooseFile</code> 方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">chooseFile</span>(<span class="params">selector, callback</span>) &#123; <span class="comment">// save</span></span><br><span class="line">  <span class="keyword">const</span> chooser = $(selector)</span><br><span class="line">  chooser.<span class="title function_">change</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">callback</span>(chooser.<span class="title function_">val</span>())</span><br><span class="line">  &#125;)</span><br><span class="line">  chooser.<span class="title function_">trigger</span>(<span class="string">&#x27;click&#x27;</span>)</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>然后在 <code>menu.js</code> 中加入 <code>openFile</code> 方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">openFile</span>(<span class="params"></span>) &#123;</span><br><span class="line">  editor.<span class="title function_">chooseFile</span>(<span class="string">&#x27;#openFile&#x27;</span>, <span class="function"><span class="params">filename</span> =&gt;</span> &#123;</span><br><span class="line">    editor.<span class="title function_">loadFile</span>(filename)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>这样，你在 File 菜单中点击 <code>Open...</code> 就会打开新文件了，而 <code>editor.loadFile</code> 则是将文件内容载入到编辑框中，利用 nodejs 中 fs 的 readFile 很容易搞定，这里就略过了。</p>
+<ul>
+<li>代码高亮</li>
+</ul>
+<p>还记得前面引入的 <code>highlight.js</code> 吗，结合 <code>marked</code> ，可以做到实时 <code>reload</code> 的时候转化为代码高亮的 dom 结构。具体逻辑参看<a target="_blank" rel="noopener" href="https://github.com/chjj/marked">marked highlight</a>。实现代码在上面气势已经给出，就是 <code>reload</code> 中的 highlight 设置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">highlight</span>: <span class="function"><span class="params">code</span> =&gt;</span> hljs.<span class="title function_">highlightAuto</span>(code).<span class="property">value</span>,</span><br></pre></td></tr></table></figure>
+
+<p>再打开 app 看下，是不是有代码高亮了，当然前提是引入相关样式。具体可以参看<a target="_blank" rel="noopener" href="https://highlightjs.org/">highlight.js</a>。</p>
+<ul>
+<li>emoji</li>
+</ul>
+<p>一个有逼格的编辑器，怎么能没有 emoji。这里采用了<a target="_blank" rel="noopener" href="http://www.webpagefx.com/tools/emoji-cheat-sheet/">emoji-cheat-sheet</a>的语法。</p>
+<p>你可以改写 marked 语法实现 <code>:smile:</code> 到 emoji 表情的映射，也可以采用别人的库，例如<a target="_blank" rel="noopener" href="https://github.com/Ranks/emojify.js">emojify.js</a>。<code>emojify.js</code>定制更方便，当然如果有自己的需要，那还是改写 parser 更好。</p>
+<p>以下是以 <code>emojify.js</code> 为例写的，在 <code>editor.js</code> 的 <code>reload</code> 结尾加入以下语句即可。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emojify.<span class="title function_">run</span>(preview.<span class="title function_">get</span>(<span class="number">0</span>));</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>图片上传</li>
+</ul>
+<p>markdown 编辑图片时，如果是本地图片，需要传到第三方的空间，未免麻烦。由于我使用了七牛的 cdn，这里以七牛的 sdk 为例实现了图片上传功能。</p>
+<p>核心功能实现参见<a target="_blank" rel="noopener" href="http://o9gnz92z5.bkt.clouddn.com/code/v6/sdk/nodejs.html">七牛 sdk</a>。</p>
+<ul>
+<li>导出 pdf</li>
+</ul>
+<p>利用 <code>phantomjs</code> 实现，LittleMD 采用了一个 npm 包 <code>phantom-html2pdf</code> 实现了这个功能。当然这个包有不少坑，后面再提。</p>
+<h2 id="6-一些问题与反思"><a href="#6-一些问题与反思" class="headerlink" title="6. 一些问题与反思"></a>6. 一些问题与反思</h2><p>npm 包功能强大，实现很多功能都很方便。但是，很多项目年久失修，缺乏维护，所以，必要时候要学会自己修改源码。比如上面提到的 <code>phantom-html2pdf</code> 这个包，实际使用发现导出的 pdf 一直是空的。debug 之后才发现，由于 node 版本原因，它依赖的 <code>phantomjs-prebuilt</code> 没有执行文件，而且执行路径也是错误的。修改之后，实现了具体功能。</p>
+<h2 id="7-最后"><a href="#7-最后" class="headerlink" title="7. 最后"></a>7. 最后</h2><p>目前(2016-10-09)已经发布了 v0.02 版本，欢迎试用并提出你的意见，<a target="_blank" rel="noopener" href="https://github.com/excaliburhan/LittleMD/releases">地址</a>。</p>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://www.excaliburhan.com" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 excalirbuhan</li>
+      <li><a href="https://www.excaliburhan.com">Home</a></li>
+      
+      <li><a target="_blank" rel="noopener" href="https://github.com/excaliburhan">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a target="_blank" rel="noopener" href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a target="_blank" rel="noopener" href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

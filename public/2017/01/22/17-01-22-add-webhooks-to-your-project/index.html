@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    给你的项目增加Webhooks，自动进行部署（包含Github/Gitlab） | 韩小平的胡言乱语地
+  </title>
+  <meta name="description" content="">
+  
+  <meta name="keywords" content="
+  
+  ">
+  
+  <meta name="author" content="excalirbuhan">
+
+  <meta http-equiv="Cache-Control" content="no-transform"/>
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://avatars.githubusercontent.com/u/4994398"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 20 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 13 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">韩小平的胡言乱语地</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    excalirbuhan
+
+    <span class="post-date float-right" title="{{moment(1485014400000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      
+          <i class="fa fa-pencil-square-o"></i>
+      
+      {{moment(1485014400000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>给你的项目增加Webhooks，自动进行部署（包含Github/Gitlab）</h1>
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Github 或者 Gitlab 的 Webhooks，允许用户订阅特定的事件，如 commit, push，两者不尽相同，但本质差不太多。Github 的可以参看<a target="_blank" rel="noopener" href="https://developer.github.com/webhooks/">github webhooks</a>，Gitlab 可以参看<a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/web_hooks/web_hooks.html">gitlab webhooks</a>。</p>
+<p>本文后续都以 Github 为例进行讲解，Gitlab 相关可以参考相关内容。</p>
+<span id="more"></span>
+
+<h2 id="自动部署脚本"><a href="#自动部署脚本" class="headerlink" title="自动部署脚本"></a>自动部署脚本</h2><p>Webhooks 的作用就是在特定的事件执行的时候触发自定义的动作。本质上，Github 的 Webhooks 触发后，会给相应的 URL(自行设置，后面会讲解)发送 POST 请求，请求头中含有 event 等相应的信息。</p>
+<p>而正确响应后的事件，比如 push 完之后，触发自动部署脚本，现在我们来写一个简单的脚本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">PROJECT_DIR = <span class="string">&#x27;path-to-your-project&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;start&#x27;</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$PROJECT_DIR</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;pull code&#x27;</span></span><br><span class="line">git reset --hard origin/master &amp;&amp; git clean -f</span><br><span class="line">git pull &amp;&amp; git checkout master</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;run npm script&#x27;</span></span><br><span class="line">npm run build</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;finished&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>脚本大概的作用就是 cd 到项目目录，拉取最新的代码，build 代码(该步骤不一定需要，如果你的代码直接可以上测试&#x2F;生产环境)。你必须保证，脚本中涉及的环境变量是可用的，比如<code>git</code>，<code>npm</code>等等。</p>
+<p>我们把这个脚本命名为<code>deploy.sh</code>，暂时放在一边，等需要的时候再用。</p>
+<h2 id="设置-Webhooks"><a href="#设置-Webhooks" class="headerlink" title="设置 Webhooks"></a>设置 Webhooks</h2><p>在你的项目中，通过<code>Settings</code> -&gt; <code>Webhooks</code> -&gt; <code>Add webhook</code>进入 webhook 设置页面。我们以下都以 push 事件为例。</p>
+<p><img src="https://static.excaliburhan.com/blog/20170122/Yqhvg8aNP-edKP-2WLADJWRz.jpeg?imageView2/0/w/600" alt="alt"></p>
+<p><code>Payload URL</code>就是 push 之后，请求的 url，我们这是<code>https://example.com/app</code>。</p>
+<p><code>Content type</code>目前有两种，根据 server 提供的来写，我们选择 json 格式的，因为后面的 server 使用的是 json 的。</p>
+<p><code>Secret</code>就是密码了，后面校验的时候需要用到。</p>
+<p><code>events</code>就是触发的事件列表，我们选 push 就行了，可以选择全部事件(第二个选项)，也可以根据需要选择(第三个选项)。个人建议最好是根据需要去选择，不然会发送很多无谓的请求，加重服务器的压力。</p>
+<p>然后就是处理请求的逻辑了，目前 Github 上有很多处理的 handler。对于前端，当然是 node 的最熟悉，可以采用<a target="_blank" rel="noopener" href="https://github.com/rvagg/github-webhook-handler">github-webhook-handler</a>，但是这个单个 webhook 处理比较方便，多个会比较麻烦，所以这里采用的就是我自己撸的一个支持多个 webhooks 的<a target="_blank" rel="noopener" href="https://github.com/excaliburhan/node-github-webhook">node-github-webhook</a>。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install node-github-webhook --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="入口文件-app-js"><a href="#入口文件-app-js" class="headerlink" title="入口文件 app.js"></a>入口文件 app.js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> createHandler = <span class="built_in">require</span>(<span class="string">&#x27;node-github-webhook&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> handler = <span class="title function_">createHandler</span>(&#123; <span class="attr">path</span>: <span class="string">&#x27;/app&#x27;</span>, <span class="attr">secret</span>: <span class="string">&#x27;appsecret&#x27;</span> &#125;); <span class="comment">// single handler</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">execFunc</span>(<span class="params">content</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> exec = <span class="built_in">require</span>(<span class="string">&#x27;child_process&#x27;</span>).<span class="property">exec</span>;</span><br><span class="line">  <span class="title function_">exec</span>(content, <span class="keyword">function</span> (<span class="params">error, stdout, stderr</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (error) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;exec error:&#x27;</span> + error);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;stdout:&#x27;</span> + stdout);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;stderr:&#x27;</span> + stderr);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http</span><br><span class="line">  .<span class="title function_">createServer</span>(<span class="keyword">function</span> (<span class="params">req, res</span>) &#123;</span><br><span class="line">    <span class="title function_">handler</span>(req, res, <span class="keyword">function</span> (<span class="params">err</span>) &#123;</span><br><span class="line">      res.<span class="property">statusCode</span> = <span class="number">404</span>;</span><br><span class="line">      res.<span class="title function_">end</span>(<span class="string">&#x27;no such location&#x27;</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">listen</span>(<span class="number">7777</span>);</span><br><span class="line"></span><br><span class="line">handler.<span class="title function_">on</span>(<span class="string">&#x27;error&#x27;</span>, <span class="keyword">function</span> (<span class="params">err</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;Error:&#x27;</span>, err.<span class="property">message</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">handler.<span class="title function_">on</span>(<span class="string">&#x27;push&#x27;</span>, <span class="keyword">function</span> (<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Received a push event for %s to %s&#x27;</span>, event.<span class="property">payload</span>.<span class="property">repository</span>.<span class="property">name</span>, event.<span class="property">payload</span>.<span class="property">ref</span>);</span><br><span class="line">  <span class="title function_">execFunc</span>(<span class="string">&#x27;sh ./deploy.sh&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>path</code>就是前面<code>Payload URL</code>的内容，切记，是不包含 host 的，<code>secret</code>就是自己设置的密码。</p>
+<p>这里为了方便，写的是单个 webhook 的设置，如果你有多个项目，设置请参考<a target="_blank" rel="noopener" href="https://github.com/excaliburhan/node-github-webhook">这个</a>。</p>
+<h2 id="守护程序"><a href="#守护程序" class="headerlink" title="守护程序"></a>守护程序</h2><p>理论上，现在就可以运行了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node app.js</span><br></pre></td></tr></table></figure>
+
+<p>但是，现在的 node-github-webhook 遇到错误是直接抛错的，会终止程序的进行，所以最好采用守护进程去运行，如<code>pm2</code>，<code>forever</code>，我这采用了<code>pm2</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm2 start app.js</span><br></pre></td></tr></table></figure>
+
+<h2 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h2><p>现在程序是在 7777 端口跑的，需要 Ngnix 反向代理到 80 端口。这里就不展开了。如果不想做，可以直接把<code>Payload URL</code>设置成<code>https://example.com:7777/app</code>，就是看起来不够优雅。</p>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>一般来说，如果成功了的话，你的代码就已经更新了。如果你需要看具体的请求内容和返回结果，可以在<code>Webhooks</code>里的<code>Recent Deliveries</code>查看每次请求的内容。</p>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://www.excaliburhan.com" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 excalirbuhan</li>
+      <li><a href="https://www.excaliburhan.com">Home</a></li>
+      
+      <li><a target="_blank" rel="noopener" href="https://github.com/excaliburhan">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a target="_blank" rel="noopener" href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a target="_blank" rel="noopener" href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

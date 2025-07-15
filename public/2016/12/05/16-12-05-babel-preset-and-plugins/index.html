@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    如何写好.babelrc？Babel的presets和plugins配置解析 | 韩小平的胡言乱语地
+  </title>
+  <meta name="description" content="">
+  
+  <meta name="keywords" content="
+  
+  ">
+  
+  <meta name="author" content="excalirbuhan">
+
+  <meta http-equiv="Cache-Control" content="no-transform"/>
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="https://github.githubassets.com/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        
+        <li><a href="/categories">Categories</a></li>
+        
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+        <li class="desktop-only"><a href="/atom.xml" target="_blank">RSS</a></li>
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="https://avatars.githubusercontent.com/u/4994398"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 20 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 13 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">韩小平的胡言乱语地</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    excalirbuhan
+
+    <span class="post-date float-right" title="{{moment(1480867200000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      
+          <i class="fa fa-pencil-square-o"></i>
+      
+      {{moment(1480867200000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>如何写好.babelrc？Babel的presets和plugins配置解析</h1>
+    <h2 id="什么是-Babel"><a href="#什么是-Babel" class="headerlink" title="什么是 Babel"></a>什么是 Babel</h2><blockquote>
+<p>The compiler for writing next generation JavaScript.</p>
+</blockquote>
+<p>官网是这么说的，翻译一下就是下一代 JavaScript 语法的编译器。</p>
+<p>作为前端开发，由于浏览器的版本和兼容性问题，很多 JavaScript 的新的方法都不能使用，等到可以大胆使用的时候，可能已经过去了好几年。Babel 就因此而生，它可以让你放心使用大部分的 JavaScript 的新的标准的方法，然后编译成兼容绝大多数的主流浏览器的代码。</p>
+<span id="more"></span>
+
+<p>在升级到了 Babel6.x 版本之后，所有的插件都是可插拔的。这也意味着你安装了 Babel 之后，是不能工作的，需要配置对应的.babelrc 文件才能发挥完整的作用。下面就对 Babel 的 presets 和 plugins 配置做一个简单解析。</p>
+<p>所有配置根据<a target="_blank" rel="noopener" href="https://babeljs.io/docs/plugins/">官方文档</a>提供，更新时间：2016-12-05。</p>
+<h2 id="预设-presets"><a href="#预设-presets" class="headerlink" title="预设(presets)"></a>预设(presets)</h2><p>使用的时候需要安装对应的插件，对应 babel-preset-xxx，例如下面的配置，需要<code>npm install babel-preset-es2015</code>。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;presets&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;es2015&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="env"><a href="#env" class="headerlink" title="env"></a>env</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;presets&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;env&quot;</span><span class="punctuation">,</span> options<span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>最近新增的一个选项，有以下 options 选择。</p>
+<h4 id="targets-string-number-，默认"><a href="#targets-string-number-，默认" class="headerlink" title="targets: { [string]: number }，默认{}"></a>targets: { [string]: number }，默认{}</h4><p>需要支持的环境，可选例如：chrome, edge, firefox, safari, ie, ios, node，甚至可以制定版本，如 node: 6.5。也使用 node: current 代表使用当前的版本。</p>
+<h4 id="browsers-Array-string，默认"><a href="#browsers-Array-string，默认" class="headerlink" title="browsers: Array&lt;string&gt; | string，默认[]"></a>browsers: Array&lt;string&gt; | string，默认[]</h4><p>浏览器列表，使用的是<a target="_blank" rel="noopener" href="https://github.com/ai/browserslist">browserslist</a>，可选例如：last 2 versions, &gt; 5%。</p>
+<h4 id="loose-boolean，默认-false"><a href="#loose-boolean，默认-false" class="headerlink" title="loose: boolean，默认 false"></a>loose: boolean，默认 false</h4><p>是否使用宽松模式，如果设置为 true，plugins 里的插件如果允许，都会采用宽松模式。</p>
+<h4 id="debug-boolean，默认-false"><a href="#debug-boolean，默认-false" class="headerlink" title="debug: boolean，默认 false"></a>debug: boolean，默认 false</h4><p>编译是否会去掉 console.log。</p>
+<h4 id="whitelist-Array，默认"><a href="#whitelist-Array，默认" class="headerlink" title="whitelist: Array&lt;string&gt;，默认[]"></a>whitelist: Array&lt;string&gt;，默认[]</h4><p>设置一直引入的 plugins 列表。</p>
+<h3 id="es2015-es2016-es2017-latest"><a href="#es2015-es2016-es2017-latest" class="headerlink" title="es2015&#x2F;es2016&#x2F;es2017&#x2F;latest"></a>es2015&#x2F;es2016&#x2F;es2017&#x2F;latest</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;presets&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;es2015&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="es2015"><a href="#es2015" class="headerlink" title="es2015"></a>es2015</h4><p>使用 es2015 的，也就是我们常说的 es6 的相关方法，简单翻译如下，更多细节可以参看<a target="_blank" rel="noopener" href="https://babeljs.io/docs/plugins/preset-es2015/">文档</a>。</p>
+<ul>
+<li>check-es2015-constants &#x2F;&#x2F; 检验 const 常量是否被重新赋值</li>
+<li>transform-es2015-arrow-functions &#x2F;&#x2F; 编译箭头函数</li>
+<li>transform-es2015-block-scoped-functions &#x2F;&#x2F; 函数声明在作用域内</li>
+<li>transform-es2015-block-scoping &#x2F;&#x2F; 编译 const 和 let</li>
+<li>transform-es2015-classes &#x2F;&#x2F; 编译 class</li>
+<li>transform-es2015-computed-properties &#x2F;&#x2F; 编译计算对象属性</li>
+<li>transform-es2015-destructuring &#x2F;&#x2F; 编译解构赋值</li>
+<li>transform-es2015-duplicate-keys &#x2F;&#x2F; 编译对象中重复的 key，其实是转换成计算对象属性</li>
+<li>transform-es2015-for-of &#x2F;&#x2F; 编译 for…of</li>
+<li>transform-es2015-function-name &#x2F;&#x2F; 将 function.name 语义应用于所有的 function</li>
+<li>transform-es2015-literals &#x2F;&#x2F; 编译整数(8 进制&#x2F;16 进制)和 unicode</li>
+<li>transform-es2015-modules-commonjs &#x2F;&#x2F; 将 modules 编译成 commonjs</li>
+<li>transform-es2015-object-super &#x2F;&#x2F; 编译 super</li>
+<li>transform-es2015-parameters &#x2F;&#x2F; 编译参数，包括默认参数，不定参数和解构参数</li>
+<li>transform-es2015-shorthand-properties &#x2F;&#x2F; 编译属性缩写</li>
+<li>transform-es2015-spread &#x2F;&#x2F; 编译展开运算符</li>
+<li>transform-es2015-sticky-regex &#x2F;&#x2F; 正则添加 sticky 属性</li>
+<li>transform-es2015-template-literals &#x2F;&#x2F; 编译模版字符串</li>
+<li>transform-es2015-typeof-symbol &#x2F;&#x2F; 编译 Symbol 类型</li>
+<li>transform-es2015-unicode-regex &#x2F;&#x2F; 正则添加 unicode 模式</li>
+<li>transform-regenerator &#x2F;&#x2F; 编译 generator 函数</li>
+</ul>
+<p>总结：常用的都覆盖了，并不需要太关心内容，如果使用某些还不支持的语法导致报错，可以回头查一下支持的列表。</p>
+<h4 id="es2016"><a href="#es2016" class="headerlink" title="es2016"></a>es2016</h4><p>使用 es2016 的相关插件，也就是 es7，更多细节可以参看<a target="_blank" rel="noopener" href="https://babeljs.io/docs/plugins/preset-es2016/">文档</a>。</p>
+<ul>
+<li>transform-exponentiation-operator &#x2F;&#x2F; 编译幂运算符</li>
+</ul>
+<h4 id="es2017"><a href="#es2017" class="headerlink" title="es2017"></a>es2017</h4><p>使用 es2017 的相关插件，也就是 es8？，更多细节可以参看<a target="_blank" rel="noopener" href="https://babeljs.io/docs/plugins/preset-es2017/">文档</a>。</p>
+<ul>
+<li>syntax-trailing-function-commas &#x2F;&#x2F; function 最后一个参数允许使用逗号</li>
+<li>transform-async-to-generator &#x2F;&#x2F; 把 async 函数转化成 generator 函数</li>
+</ul>
+<h4 id="latest"><a href="#latest" class="headerlink" title="latest"></a>latest</h4><p>latest 是一个特殊的 presets，包括了 es2015，es2016，es2017 的插件（目前为止，以后有 es2018 也会包括进去）。</p>
+<h3 id="react"><a href="#react" class="headerlink" title="react"></a>react</h3><p>react 是一个比较特别的官方推荐的 presets，大概是因为比较火吧。加入了 flow，jsx 等语法，具体可以看<a target="_blank" rel="noopener" href="https://babeljs.io/docs/plugins/preset-react/">文档</a>。</p>
+<h3 id="stage-x-stage-0-1-2-3-4"><a href="#stage-x-stage-0-1-2-3-4" class="headerlink" title="stage-x(stage-0&#x2F;1&#x2F;2&#x2F;3&#x2F;4)"></a>stage-x(stage-0&#x2F;1&#x2F;2&#x2F;3&#x2F;4)</h3><p>stage-x 和上面的 es2015 等有些类似，但是它是按照 JavaScript 的提案阶段区分的，一共有 5 个阶段。而数字越小，阶段越靠后，存在依赖关系。也就是说 stage-0 是包括 stage-1 的，以此类推。</p>
+<h4 id="stage-4"><a href="#stage-4" class="headerlink" title="stage-4"></a>stage-4</h4><p>已完成的提案，与年度发布的 release 有关，包含 2015 年到明年正式发布的内容。例如，现在是 2016 年，stage-4 应该是包括 es2015，es2016，es2017。经过测试，babel-preset-stage-4 这个 npm 包是不存在的，如果你单纯的需要 stage-4 的相关方法，需要引入 es2015~es2017 的 presets。</p>
+<h4 id="stage-3"><a href="#stage-3" class="headerlink" title="stage-3"></a>stage-3</h4><p>除了 stage-4 的内容，还包括以下插件，更多细节请看<a target="_blank" rel="noopener" href="http://babeljs.io/docs/plugins/preset-stage-3/">文档</a>。</p>
+<ul>
+<li>transform-object-rest-spread &#x2F;&#x2F; 编译对象的解构赋值和不定参数</li>
+<li>transform-async-generator-functions &#x2F;&#x2F; 将 async generator function 和 for await 编译为 es2015 的 generator。</li>
+</ul>
+<h4 id="stage-2"><a href="#stage-2" class="headerlink" title="stage-2"></a>stage-2</h4><p>除了 stage-3 的内容，还包括以下插件，更多细节请看<a target="_blank" rel="noopener" href="http://babeljs.io/docs/plugins/preset-stage-2/">文档</a>。</p>
+<ul>
+<li>transform-class-properties &#x2F;&#x2F; 编译静态属性(es2015)和属性初始化语法声明的属性(es2016)。</li>
+</ul>
+<h4 id="stage-1"><a href="#stage-1" class="headerlink" title="stage-1"></a>stage-1</h4><p>除了 stage-2 的内容，还包括以下插件，更多细节请看<a target="_blank" rel="noopener" href="http://babeljs.io/docs/plugins/preset-stage-1/">文档</a>。</p>
+<ul>
+<li>transform-class-constructor-call &#x2F;&#x2F; 编译 class 中的 constructor，在 Babel7 中会被移除</li>
+<li>transform-export-extensions &#x2F;&#x2F; 编译额外的 exprt 语法，如 export * as ns from “mod”;细节可以看<a target="_blank" rel="noopener" href="https://github.com/leebyron/ecmascript-more-export-from">这个</a></li>
+</ul>
+<h4 id="stage-0"><a href="#stage-0" class="headerlink" title="stage-0"></a>stage-0</h4><p>除了 stage-1 的内容，还包括以下插件，更多细节请看<a target="_blank" rel="noopener" href="http://babeljs.io/docs/plugins/preset-stage-0/">文档</a>。</p>
+<ul>
+<li>transform-do-expressions &#x2F;&#x2F; 编译 do 表达式</li>
+<li>transform-function-bind &#x2F;&#x2F; 编译 bind 运算符，也就是<code>::</code></li>
+</ul>
+<h2 id="插件-plugins"><a href="#插件-plugins" class="headerlink" title="插件(plugins)"></a>插件(plugins)</h2><p>其实看了上面的应该也明白了，presets，也就是一堆 plugins 的预设，起到方便的作用。如果你不采用 presets，完全可以单独引入某个功能，比如以下的设置就会引入编译箭头函数的功能。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;transform-es2015-arrow-functions&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>那么，还有一些方法是 presets 中不提供的，这时候就需要单独引入了，介绍几个常见的插件。</p>
+<h3 id="transform-runtime"><a href="#transform-runtime" class="headerlink" title="transform-runtime"></a>transform-runtime</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;transform-runtime&quot;</span><span class="punctuation">,</span> options<span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>主要有以下 options 选择。</p>
+<h4 id="helpers-boolean，默认-true"><a href="#helpers-boolean，默认-true" class="headerlink" title="helpers: boolean，默认 true"></a>helpers: boolean，默认 true</h4><p>使用 babel 的 helper 函数。</p>
+<h4 id="polyfill-boolean，默认-true"><a href="#polyfill-boolean，默认-true" class="headerlink" title="polyfill: boolean，默认 true"></a>polyfill: boolean，默认 true</h4><p>使用 babel 的 polyfill，但是不能完全取代 babel-polyfill。</p>
+<h4 id="regenerator-boolean，默认-true"><a href="#regenerator-boolean，默认-true" class="headerlink" title="regenerator: boolean，默认 true"></a>regenerator: boolean，默认 true</h4><p>使用 babel 的 regenerator。</p>
+<h4 id="moduleName-string，默认-babel-runtime"><a href="#moduleName-string，默认-babel-runtime" class="headerlink" title="moduleName: string，默认 babel-runtime"></a>moduleName: string，默认 babel-runtime</h4><p>使用对应 module 处理。</p>
+<p>这里的 options 一般不用自己设置，用默认的即可。这个插件最大的作用主要有几下几点：</p>
+<ul>
+<li>解决编译中产生的重复的工具函数，减小代码体积</li>
+<li>非实例方法的 poly-fill，如<code>Object.assign</code>，但是实例方法不支持，如<code>&quot;foobar&quot;.includes(&quot;foo&quot;)</code>，这时候需要单独引入 babel-polyfill</li>
+</ul>
+<p>更多细节参见<a target="_blank" rel="noopener" href="https://babeljs.io/docs/plugins/transform-runtime/">文档</a>。</p>
+<h3 id="transform-remove-console"><a href="#transform-remove-console" class="headerlink" title="transform-remove-console"></a>transform-remove-console</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;transform-remove-console&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>使用这个插件，编译后的代码都会移除<code>console.*</code>，妈妈再也不用担心线上代码有多余的 console.log 了。当然很多时候，我们如果使用 webpack，会在 webpack 中配置。</p>
+<p>这也告诉我们，Babel 不仅仅是编译代码的工具，还能对代码进行压缩，也许有一天，你不再需要代码压缩的插件了，因为你有了 Babel！</p>
+<h2 id="自定义预设或插件"><a href="#自定义预设或插件" class="headerlink" title="自定义预设或插件"></a>自定义预设或插件</h2><p>Babel 支持自定义的预设(presets)或插件(plugins)。如果你的插件在 npm 上，可以直接采用这种方式<code>&quot;plugins&quot;: [&quot;babel-plugin-myPlugin&quot;]</code>，当然，你也可以缩写，它和<code>&quot;plugins&quot;: [&quot;myPlugin&quot;]</code>是等价的。此外，你还可以采用本地的相对路径引入插件，比如<code>&quot;plugins&quot;: [&quot;./node_modules/asdf/plugin&quot;]</code>。</p>
+<p>presets 同理。</p>
+<h2 id="plugins-presets-排序"><a href="#plugins-presets-排序" class="headerlink" title="plugins&#x2F;presets 排序"></a>plugins&#x2F;presets 排序</h2><p>也许你会问，或者你没注意到，我帮你问了，plugins 和 presets 编译，也许会有相同的功能，或者有联系的功能，按照怎么的顺序进行编译？答案是会按照一定的顺序。</p>
+<ul>
+<li>具体而言，plugins 优先于 presets 进行编译。</li>
+<li>plugins 按照数组的 index 增序(从数组第一个到最后一个)进行编译。</li>
+<li>presets 按照数组的 index 倒序(从数组最后一个到第一个)进行编译。因为作者认为大部分会把 presets 写成<code>[&quot;es2015&quot;, &quot;stage-0&quot;]</code>。具体细节可以看<a target="_blank" rel="noopener" href="https://github.com/babel/notes/blob/master/2016-08/august-01.md#potential-api-changes-for-traversal">这个</a>。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>因为自己对.babelrc 文件的设置有点疑问，花了大半天撸了下官方的<a target="_blank" rel="noopener" href="https://babeljs.io/docs/plugins/">文档</a>。很多内容是英文的，可能翻译并不准确，希望大家多多指教。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;presets&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;es2015&quot;</span><span class="punctuation">,</span> <span class="string">&quot;stage-0&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;plugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;transform-runtime&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这是我写了半天发现比较推荐的配置(真的是太简单了，还花了这么久去看文档)。强烈推荐使用<code>transform-runtime</code>。</p>
+<p>当然，如果你的项目需要 react 或者 flow 这些语法的编译，请在 presets 里加入对应的值即可。如果你需要非实例方法<code>&quot;foobar&quot;.includes(&quot;foo&quot;)</code>之类的方法，按需引入 babel-polyfill。</p>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://www.excaliburhan.com" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 excalirbuhan</li>
+      <li><a href="https://www.excaliburhan.com">Home</a></li>
+      
+      <li><a target="_blank" rel="noopener" href="https://github.com/excaliburhan">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a target="_blank" rel="noopener" href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a target="_blank" rel="noopener" href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>
