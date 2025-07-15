@@ -13,10 +13,22 @@ tags:
 
 node
 
-## hexo 博客
+## 搭建 hexo 博客
 
-## hexo 部署 - github pages
+## hexo 部署
 
-## 阿里云 ecs 机器
+### github gh-pages
 
-### nginx
+### hexo generate（自动更新 webhook）
+
+## ecs 服务器（阿里云）
+
+### nginx 配置
+
+### ssl 证书（acme.sh）
+
+## 图片资源处理
+
+### oss（阿里云）
+
+### cdn（七牛云）+ 自定义域名
