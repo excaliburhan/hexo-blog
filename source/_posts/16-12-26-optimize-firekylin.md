@@ -17,7 +17,7 @@ Firekylin 博客是一个基于 ThinkJS 的博客系统，本身对博客的优�
 
 首先打开网站首页[https://excaliburhan.com](https://excaliburhan.com)。右键`检查(或者审查元素)`，选择`Network`查看资源加载情况：
 
-![alt](https://static.excaliburhan.com/blog/20161226/Qr3U3tIre1tW5yiitXRf-coX.jpeg?imageView2/0/w/600)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/Qr3U3tIre1tW5yiitXRf-coX.jpeg)
 
 可以看到，加载的资源主要有几种，`首页logo`，`iconfont字体`，`google统计代码`，因为我没有设置首页背景图，如果有，处理应该是和 logo 一致的，这里就不展开了。
 
@@ -29,7 +29,7 @@ Firekylin 博客是一个基于 ThinkJS 的博客系统，本身对博客的优�
 
 首先采用了使用 base64 编码的方式，这样图片是会被缓存的。来看一下效果：
 
-![alt](https://static.excaliburhan.com/blog/20161226/TQ8ArbcBsxN2kl501WgI4DVq.jpeg?imageView2/0/w/600)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/TQ8ArbcBsxN2kl501WgI4DVq.jpeg)
 
 嗯，很好，图片被缓存了。不过，等等！`index.html`从原来的 6.8kb 变成了 17.4kb，反而加载的资源大小更大了！究其原因，就是图片从 jpg 转变成 base64 图片，大小变成 12kb 左右，而首页 logo 采用的是 img 标签，等于说 12kb 的文本加载到了`index.html`中，这显然不是我们需要的。
 
@@ -37,7 +37,7 @@ Firekylin 博客是一个基于 ThinkJS 的博客系统，本身对博客的优�
 
 由于之前给 Firekylin 提了 mr，现在图片上传可以支持 cdn，而我一直采用的是七牛的 cdn，现在换成七牛 cdn 看看。
 
-![alt](https://static.excaliburhan.com/blog/20161226/6f4ngZN4E5q6eMmH5P849w0q.jpeg?imageView2/0/w/600)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/6f4ngZN4E5q6eMmH5P849w0q.jpeg)
 
 可以看到图片已经被缓存了，这里图片走的是 cdn 的缓存机制，所以它的有效时间是由 cdn 设置决定的。如果你看的比较仔细，你可以发现`index.html`的大小也变小了，那是因为我之前忘记截图了，更新新版本的 Firekylin 导致的，看来 Firekylin 也一直在优化呢(笑)。而这里，我们就把它还当作是 6.8kb 吧。
 
@@ -88,7 +88,7 @@ location ~ .*\.(ico|svg|ttf|eot|woff)(.*) {
 
 重启 nginx 看下效果：
 
-![alt](https://static.excaliburhan.com/blog/20161226/vTIfBpqGqt4PEevZNoeVXjKq.jpeg?imageView2/0/w/600)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/vTIfBpqGqt4PEevZNoeVXjKq.jpeg)
 
 ### google 统计代码
 
@@ -134,11 +134,11 @@ location ~* (analytics\.js)$ {
 
 配置结束，来看下效果：
 
-![alt](https://static.excaliburhan.com/blog/20161226/t-ewsBrXtS7W0jbTdb65-BfN.jpeg?imageView2/0/w/600)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/t-ewsBrXtS7W0jbTdb65-BfN.jpeg)
 
 放下初次加载没有缓存的对比图：
 
-![alt](https://static.excaliburhan.com/blog/20161226/eNZcJtpm9cUe6WzW0h9x5bP5.jpeg?imageView2/0/w/600)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/eNZcJtpm9cUe6WzW0h9x5bP5.jpeg)
 
 ## 结束
 

@@ -141,16 +141,16 @@
 <span id="more"></span>
 
 <h2 id="优化步骤"><a href="#优化步骤" class="headerlink" title="优化步骤"></a>优化步骤</h2><p>首先打开网站首页<a target="_blank" rel="noopener" href="https://excaliburhan.com/">https://excaliburhan.com</a>。右键<code>检查(或者审查元素)</code>，选择<code>Network</code>查看资源加载情况：</p>
-<p><img src="https://static.excaliburhan.com/blog/20161226/Qr3U3tIre1tW5yiitXRf-coX.jpeg?imageView2/0/w/600" alt="alt"></p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/Qr3U3tIre1tW5yiitXRf-coX.jpeg" alt="alt"></p>
 <p>可以看到，加载的资源主要有几种，<code>首页logo</code>，<code>iconfont字体</code>，<code>google统计代码</code>，因为我没有设置首页背景图，如果有，处理应该是和 logo 一致的，这里就不展开了。</p>
 <p>我们首先从<code>首页logo</code>开始。</p>
 <h3 id="处理-logo"><a href="#处理-logo" class="headerlink" title="处理 logo"></a>处理 logo</h3><p>我采用的 logo 已经是压缩过的图片，但是还有 10k 左右的大小，我们的目标是图片加载一律走缓存。</p>
 <p>首先采用了使用 base64 编码的方式，这样图片是会被缓存的。来看一下效果：</p>
-<p><img src="https://static.excaliburhan.com/blog/20161226/TQ8ArbcBsxN2kl501WgI4DVq.jpeg?imageView2/0/w/600" alt="alt"></p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/TQ8ArbcBsxN2kl501WgI4DVq.jpeg" alt="alt"></p>
 <p>嗯，很好，图片被缓存了。不过，等等！<code>index.html</code>从原来的 6.8kb 变成了 17.4kb，反而加载的资源大小更大了！究其原因，就是图片从 jpg 转变成 base64 图片，大小变成 12kb 左右，而首页 logo 采用的是 img 标签，等于说 12kb 的文本加载到了<code>index.html</code>中，这显然不是我们需要的。</p>
 <p>如果改成 background 的形式，理论上可以解决，但是加载的大小转移到了 css 样式文件中，1 是没有解决根本问题(base64 本身带来的字节大小)，2 是需要改写博客源代码，成本太高，换另外一种方案。</p>
 <p>由于之前给 Firekylin 提了 mr，现在图片上传可以支持 cdn，而我一直采用的是七牛的 cdn，现在换成七牛 cdn 看看。</p>
-<p><img src="https://static.excaliburhan.com/blog/20161226/6f4ngZN4E5q6eMmH5P849w0q.jpeg?imageView2/0/w/600" alt="alt"></p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/6f4ngZN4E5q6eMmH5P849w0q.jpeg" alt="alt"></p>
 <p>可以看到图片已经被缓存了，这里图片走的是 cdn 的缓存机制，所以它的有效时间是由 cdn 设置决定的。如果你看的比较仔细，你可以发现<code>index.html</code>的大小也变小了，那是因为我之前忘记截图了，更新新版本的 Firekylin 导致的，看来 Firekylin 也一直在优化呢(笑)。而这里，我们就把它还当作是 6.8kb 吧。</p>
 <h3 id="iconfont"><a href="#iconfont" class="headerlink" title="iconfont"></a>iconfont</h3><p>Firekylin 采用了 iconfont 来处理一些全局用到的图标，首页的菜单会用到这个文件。</p>
 <p>由于这个文件以后可能会有变化，所以 Firekylin 给它添加了<code>?v=</code>的版本信息。</p>
@@ -164,7 +164,7 @@
 <p>这里需要注意的是，<code>server</code>中的<code>proxy_cache</code>的名称要和<code>http</code>中配置的<code>keys_zone</code>一致。</p>
 <p>上面的<code>server</code>配置，第一条是对常见图片结尾的文件进行一天的缓存，这里不建议把缓存时间定很长，否则你的同路径同名称的图片可能很久都不会改变。第二条就是对字体文件结尾的文件进行一年的缓存。这个可以设置久一些，因为一般这个文件是不会变动的，如果变动，版本信息导致的变动也会让 etag 改变，从而刷新缓存。</p>
 <p>重启 nginx 看下效果：</p>
-<p><img src="https://static.excaliburhan.com/blog/20161226/vTIfBpqGqt4PEevZNoeVXjKq.jpeg?imageView2/0/w/600" alt="alt"></p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/vTIfBpqGqt4PEevZNoeVXjKq.jpeg" alt="alt"></p>
 <h3 id="google-统计代码"><a href="#google-统计代码" class="headerlink" title="google 统计代码"></a>google 统计代码</h3><p>下面就是 google 的统计代码了。由于是异步获取的 google 官方的 analytics.js 文件，其实对于网站加载是完全没有影响的。而 google 设置的缓存时间是 2 小时，这个时间太短了，以至于 google 自己的官方检测给出的意见是提高该 js 的缓存时间- -，检测的地址是:</p>
 <p><a target="_blank" rel="noopener" href="https://developers.google.com/speed/pagespeed/insights/">https://developers.google.com/speed/pagespeed/insights/</a></p>
 <p>那么对于这个 js 文件怎么办呢？分析一下，主要有两点，一是延长 js 的缓存时间，而是保证 js 是最新的。</p>
@@ -181,9 +181,9 @@
 
 <p>我这里设置的是每周日 0 点自动去 wget 需要的 analytics.js，替换自己目录的该文件。你也可以根据自己的缓存时间来编写自己的定时任务。</p>
 <p>配置结束，来看下效果：</p>
-<p><img src="https://static.excaliburhan.com/blog/20161226/t-ewsBrXtS7W0jbTdb65-BfN.jpeg?imageView2/0/w/600" alt="alt"></p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/t-ewsBrXtS7W0jbTdb65-BfN.jpeg" alt="alt"></p>
 <p>放下初次加载没有缓存的对比图：</p>
-<p><img src="https://static.excaliburhan.com/blog/20161226/eNZcJtpm9cUe6WzW0h9x5bP5.jpeg?imageView2/0/w/600" alt="alt"></p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/eNZcJtpm9cUe6WzW0h9x5bP5.jpeg" alt="alt"></p>
 <h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>看我截图的加载时间，发现缓存之后，<code>index.html</code>有时候会加载比较久的时间，这是和网络相关的。但是，可以确定的是，走缓存的资源都是秒加载的，是不是很爽？</p>
 <p>如果你也用 Firekylin 的博客，可以按照这个方法进行下优化，如果不是这个博客系统，一些方法也可以参考。如果你有什么意见或建议，欢迎一起探讨～</p>
 

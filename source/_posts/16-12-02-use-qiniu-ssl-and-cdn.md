@@ -64,4 +64,4 @@ add_header    Public-Key-Pins ...(pin-sha256指纹设置);max-age=604800;
 
 为了证明现在的静态资源是使用自定义域名的，放张图。
 
-![alt](https://static.excaliburhan.com/blog/20161202/DgwP_Asc50b3nuCMuviG9GHD.jpg)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/DgwP_Asc50b3nuCMuviG9GHD.jpg)

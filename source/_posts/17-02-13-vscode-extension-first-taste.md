@@ -51,19 +51,19 @@ categories:
 
 - `npm install -g yo generator-code && yo code`
 
-![alt](https://static.excaliburhan.com/blog/20170213/COWO3NSOempfVbg695QfgHSA.jpeg)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/COWO3NSOempfVbg695QfgHSA.jpeg)
 
 可以看到，提供了几种基本插件/主题编写的模版，由于我没学过 typescript，这里选择了 javascript 的插件。
 
 按部就班填写信息，如果你已经在上一步登陆`vsce`，这里的 publisher name 是自动填写的，你也可以手动填写，但保持和你的注册用户名一致。
 
-![alt](https://static.excaliburhan.com/blog/20170213/_YPzqd-46NhRNCdsNROv3yY_.jpeg)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/_YPzqd-46NhRNCdsNROv3yY_.jpeg)
 
 确认后，会自动使用 npm 安装依赖，耐心等待一会，项目就生成完毕。
 
 我这里没有让它自动生成 git 项目，可以通过`git remote add`添加你自己的 github 仓库地址。
 
-![alt](https://static.excaliburhan.com/blog/20170213/4ez3C47KiN2xLoqOAcJ-AKNL.jpeg)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/4ez3C47KiN2xLoqOAcJ-AKNL.jpeg)
 
 生成的项目结构大概是这样的，由于功能比较简单，这里只要关心`extension.js`就可以了，这是我们的主要功能 js。
 

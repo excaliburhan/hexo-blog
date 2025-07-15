@@ -41,7 +41,7 @@ location ~ .*\.(ico|svg|ttf|eot|woff)(.*) {
 }
 ```
 
-![alt](https://static.excaliburhan.com/blog/20170327/UQQrhatzWnpiKcjkBAR-Cwy5.jpeg)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/UQQrhatzWnpiKcjkBAR-Cwy5.jpeg)
 
 （1）expires：从图可以看出，expires 的值是一个绝对时间，是 http1.0 的功能。如果浏览器的时间没有超过这个 expires 的时间，代表缓存还有效，命中强缓存，直接从缓存读取资源。不过由于存在浏览器和服务端时间可能出现较大误差，所以在之后 http1.1 提出了 cache-control。
 
@@ -61,11 +61,11 @@ Chrome 在高版本更新了缓存策略（具体哪个我忘了），原来的`
 
 首次打开 Tab：
 
-![alt](https://static.excaliburhan.com/blog/20170327/wHYczt-esCaoSWimZ6JHWVhz.jpeg)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/wHYczt-esCaoSWimZ6JHWVhz.jpeg)
 
 刷新(cmd+r)Tab：
 
-![alt](https://static.excaliburhan.com/blog/20170327/BnoONl2XIQoNYvHCbK7O5-fW.jpeg)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/BnoONl2XIQoNYvHCbK7O5-fW.jpeg)
 
 可以看到，在命中强缓存的情况下，进程初次渲染会从磁盘读取缓存资源。Chrome 会将部分资源保存到内存中（具体保存的逻辑还不清楚，如果有知道的请告知）。
 
@@ -99,7 +99,7 @@ location ~ .*\.(ico|svg|ttf|eot|woff)(.*) {
 }
 ```
 
-![alt](https://static.excaliburhan.com/blog/20170327/CrDzh0AaGQw0SJNw714JjHRC.jpeg)
+![alt](https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/CrDzh0AaGQw0SJNw714JjHRC.jpeg)
 
 （1）last-modified/if-modified-since:
 浏览器首先发送一个请求，让服务端在 response header 中返回请求的资源上次更新时间，就是`last-modified`，浏览器会缓存下这个时间。然后浏览器再下次请求中，request header 中带上`if-modified-since:[保存的last-modified的值]`。根据浏览器发送的修改时间和服务端的修改时间进行比对，一致的话代表资源没有改变，服务端返回正文为空的响应，让浏览器中缓存中读取资源，这就大大减小了请求的消耗。由于 last-modified 依赖的是保存的绝对时间，还是会出现误差的情况：一是保存的时间是以秒为单位的，1 秒内多次修改是无法捕捉到的；二是各机器读取到的时间不一致，就有出现误差的可能性。为了改善这个问题，提出了使用 etag。

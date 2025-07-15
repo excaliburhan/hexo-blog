@@ -147,7 +147,7 @@
 <p>nginx 代码参考，设置了一年的缓存时间：</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span> <span class="regexp">~ .*\.(ico|svg|ttf|eot|woff)(.*)</span> &#123;</span><br><span class="line">  <span class="attribute">proxy_cache</span>               pnc;</span><br><span class="line">  <span class="attribute">proxy_cache_valid</span>         <span class="number">200</span> <span class="number">304</span> <span class="number">1y</span>;</span><br><span class="line">  <span class="attribute">proxy_cache_valid</span>         any <span class="number">1m</span>;</span><br><span class="line">  <span class="attribute">proxy_cache_lock</span>          <span class="literal">on</span>;</span><br><span class="line">  <span class="attribute">proxy_cache_lock_timeout</span>  <span class="number">5s</span>;</span><br><span class="line">  <span class="attribute">proxy_cache_use_stale</span>     updating <span class="literal">error</span> timeout invalid_header http_500 http_502;</span><br><span class="line">  <span class="attribute">expires</span>                   <span class="number">1y</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://static.excaliburhan.com/blog/20170327/UQQrhatzWnpiKcjkBAR-Cwy5.jpeg" alt="alt"></p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/UQQrhatzWnpiKcjkBAR-Cwy5.jpeg" alt="alt"></p>
 <p>（1）expires：从图可以看出，expires 的值是一个绝对时间，是 http1.0 的功能。如果浏览器的时间没有超过这个 expires 的时间，代表缓存还有效，命中强缓存，直接从缓存读取资源。不过由于存在浏览器和服务端时间可能出现较大误差，所以在之后 http1.1 提出了 cache-control。</p>
 <p>（2）cache-control：从图可以看出，cache-control 的值是类似于<code>max-age=31536000</code>这样的，是一个相对时间，31536000 是秒数，正好是一年的时间。当浏览器第一次请求资源的时候，会把 response header 的内容缓存下来。之后的请求会先从缓存检查该 response header，通过第一次请求的 date 和 cache-control 计算出缓存有效时间。如果浏览器的时间没有超过这个缓存有效的时间，代表缓存还有效，命中强缓存，直接从缓存读取资源。</p>
 <p>两者可以同时设置，但是优先级 cache-control &gt; expires。</p>
@@ -158,9 +158,9 @@
 </blockquote>
 <p>我的渣六级英语翻一下，大概就是内存缓存是和渲染进程绑定的，大部分情况下于浏览器 Tab 对应。为此我实验了一下：</p>
 <p>首次打开 Tab：</p>
-<p><img src="https://static.excaliburhan.com/blog/20170327/wHYczt-esCaoSWimZ6JHWVhz.jpeg" alt="alt"></p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/wHYczt-esCaoSWimZ6JHWVhz.jpeg" alt="alt"></p>
 <p>刷新(cmd+r)Tab：</p>
-<p><img src="https://static.excaliburhan.com/blog/20170327/BnoONl2XIQoNYvHCbK7O5-fW.jpeg" alt="alt"></p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/BnoONl2XIQoNYvHCbK7O5-fW.jpeg" alt="alt"></p>
 <p>可以看到，在命中强缓存的情况下，进程初次渲染会从磁盘读取缓存资源。Chrome 会将部分资源保存到内存中（具体保存的逻辑还不清楚，如果有知道的请告知）。</p>
 <p>由于内存缓存是直接从内存中读取的，所以速度更快，从图中可以看出时间是 0ms。而磁盘缓存还需要从磁盘中读取，速度还和磁盘的 I&#x2F;O 有关，时间大概在 2 ～ 10ms，也是相当快的了。</p>
 <h3 id="2-3-强缓存作用"><a href="#2-3-强缓存作用" class="headerlink" title="2.3 强缓存作用"></a>2.3 强缓存作用</h3><p>强缓存作为性能优化中缓存方面最有效的手段，能够极大的提升性能。由于强缓存不会向服务端发送请求，对服务端的压力也是大大减小。</p>
@@ -170,7 +170,7 @@
 <p>nginx 代码参考：</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span> <span class="regexp">~ .*\.(ico|svg|ttf|eot|woff)(.*)</span> &#123;</span><br><span class="line">  <span class="attribute">proxy_cache</span>               pnc;</span><br><span class="line">  <span class="attribute">proxy_cache_valid</span>         <span class="number">200</span> <span class="number">304</span> <span class="number">1y</span>;</span><br><span class="line">  <span class="attribute">proxy_cache_valid</span>         any <span class="number">1m</span>;</span><br><span class="line">  <span class="attribute">proxy_cache_lock</span>          <span class="literal">on</span>;</span><br><span class="line">  <span class="attribute">proxy_cache_lock_timeout</span>  <span class="number">5s</span>;</span><br><span class="line">  <span class="attribute">proxy_cache_use_stale</span>     updating <span class="literal">error</span> timeout invalid_header http_500 http_502;</span><br><span class="line">  <span class="attribute">etag</span>                                       <span class="literal">on</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://static.excaliburhan.com/blog/20170327/CrDzh0AaGQw0SJNw714JjHRC.jpeg" alt="alt"></p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/CrDzh0AaGQw0SJNw714JjHRC.jpeg" alt="alt"></p>
 <p>（1）last-modified&#x2F;if-modified-since:<br>浏览器首先发送一个请求，让服务端在 response header 中返回请求的资源上次更新时间，就是<code>last-modified</code>，浏览器会缓存下这个时间。然后浏览器再下次请求中，request header 中带上<code>if-modified-since:[保存的last-modified的值]</code>。根据浏览器发送的修改时间和服务端的修改时间进行比对，一致的话代表资源没有改变，服务端返回正文为空的响应，让浏览器中缓存中读取资源，这就大大减小了请求的消耗。由于 last-modified 依赖的是保存的绝对时间，还是会出现误差的情况：一是保存的时间是以秒为单位的，1 秒内多次修改是无法捕捉到的；二是各机器读取到的时间不一致，就有出现误差的可能性。为了改善这个问题，提出了使用 etag。</p>
 <p>（2）etag&#x2F;if-none-match：</p>
 <blockquote>
