@@ -1,6 +1,10 @@
 const fs = require('fs').promises;
 const path = require('path');
-const execa = require('execa');
+const { exec } = require('child_process');
+const util = require('util');
+
+// 将同步 exec 转换为 Promise 形式
+const execAsync = util.promisify(exec);
 
 // 1. 定义博客项目路径
 const BLOG_DIR = '/home/hexo-blog';
@@ -45,7 +49,7 @@ async function runCommand(command, cwd) {
   console.log(logEntry.trim());
 
   try {
-    const { stdout, stderr } = await execa(command, {
+    const { stdout, stderr } = await execAsync(command, {
       cwd,
       shell: true,
     });
