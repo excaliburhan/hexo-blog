@@ -1,8 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { exec } = require('child_process');
+const util = require('util');
 
-// 1. 定义博客项目路径（变量）
+// 异步封装 exec
+const execAsync = util.promisify(exec);
+
+// 1. 定义博客项目路径
 const BLOG_DIR = '/home/hexo-blog';
 
 // 2. 定义日志路径和文件名
@@ -16,39 +20,42 @@ if (!fs.existsSync(LOG_DIR)) {
 }
 
 // 4. 工具函数：执行命令并记录日志
-function runCommand(command, cwd) {
-  let stdout, stderr;
+async function runCommand(command, cwd) {
+  const logEntry = `[执行命令] ${command}\n`;
+  fs.appendFileSync(LOG_FILE_PATH, logEntry);
+  console.log(logEntry.trim());
 
   try {
-    stdout = execSync(command, {
+    const { stdout, stderr } = await execAsync(command, {
       cwd,
-      stdio: ['ignore', 'pipe', 'pipe'], // 忽略 stdin，捕获 stdout 和 stderr
+      maxBuffer: 1024 * 1024 * 10, // 增加缓冲区，防止超限
     });
-    stderr = Buffer.alloc(0);
+
+    const logOutput = `[STDOUT] ${stdout}\n[STDERR] ${stderr}\n`;
+    fs.appendFileSync(LOG_FILE_PATH, logOutput);
+    process.stdout.write(stdout);
+    if (stderr) {
+      process.stderr.write(stderr);
+    }
   } catch (error) {
-    stdout = error.stdout || Buffer.alloc(0);
-    stderr = error.stderr || Buffer.alloc(0);
-    throw error; // 抛出错误，保持流程中断
-  }
+    const logOutput = `[STDOUT] ${error.stdout || ''}\n[STDERR] ${error.stderr || ''}\n`;
+    fs.appendFileSync(LOG_FILE_PATH, logOutput);
+    process.stdout.write(error.stdout || '');
+    process.stderr.write(error.stderr || '');
 
-  // 5. 构建日志内容
-  const logEntry = `[STDOUT] ${stdout.toString()}\n[STDERR] ${stderr.toString()}\n`;
-
-  // 6. 同时写入文件和输出到终端
-  fs.appendFileSync(LOG_FILE_PATH, logEntry);
-  process.stdout.write(stdout);
-  if (stderr.length > 0) {
-    process.stderr.write(stderr);
+    throw new Error(`命令失败: ${command} - ${error.message}`);
   }
 }
 
-// 7. 主流程
-try {
-  console.log('✅ 正在进入目录 ', BLOG_DIR);
-  runCommand('git pull', BLOG_DIR);
-  runCommand('npm run build', BLOG_DIR);
-  console.log('🎉 构建流程完成！\n');
-} catch (error) {
-  console.error('❌ 部署失败:', error.message);
-  process.exit(1);
-}
+// 5. 主流程
+(async () => {
+  try {
+    console.log('✅ 正在进入目录 ', BLOG_DIR);
+    await runCommand('git pull', BLOG_DIR);
+    await runCommand('npm run build', BLOG_DIR);
+    console.log('🎉 构建流程完成！\n');
+  } catch (error) {
+    console.error('❌ 部署失败:', error.message);
+    process.exit(1);
+  }
+})();
