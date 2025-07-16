@@ -1,6 +1,6 @@
 {
   "name": "hexo-blog",
-  "description": "a blog based on hexo",
+  "description": "A blog based on hexo",
   "version": "1.0.0",
   "private": true,
   "scripts": {
