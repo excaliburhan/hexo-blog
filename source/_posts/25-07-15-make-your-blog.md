@@ -1,5 +1,5 @@
 ---
-title: Hexo 部署博客全过程
+title: 从 0 到 1 部署你的博客
 date: 2025-07-15 15:08:48
 categories:
   - site
@@ -19,7 +19,7 @@ node
 
 ### github gh-pages
 
-### hexo generate（自动更新 webhook）
+### web hook 自动更新
 
 ## ecs 服务器（阿里云）
 
