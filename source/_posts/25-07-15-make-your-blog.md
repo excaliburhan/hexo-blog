@@ -11,7 +11,7 @@ tags:
 
 ## 环境准备
 
-node14
+node15
 
 ## 搭建 hexo 博客
 
