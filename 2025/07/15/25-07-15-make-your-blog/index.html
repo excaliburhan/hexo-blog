@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>
-      Hexo 部署博客全过程 | 韩小平的胡言乱语地
+      从 0 到 1 部署你的博客 | 韩小平的胡言乱语地
     </title>
     <meta name="description" content="" />
     
@@ -135,9 +135,176 @@
   </h3>
 
   <article class="post-content">
-    <h1>Hexo 部署博客全过程</h1>
-    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>node</p>
-<h2 id="搭建-hexo-博客"><a href="#搭建-hexo-博客" class="headerlink" title="搭建 hexo 博客"></a>搭建 hexo 博客</h2><h2 id="hexo-部署"><a href="#hexo-部署" class="headerlink" title="hexo 部署"></a>hexo 部署</h2><h3 id="github-gh-pages"><a href="#github-gh-pages" class="headerlink" title="github gh-pages"></a>github gh-pages</h3><h3 id="hexo-generate（自动更新-webhook）"><a href="#hexo-generate（自动更新-webhook）" class="headerlink" title="hexo generate（自动更新 webhook）"></a>hexo generate（自动更新 webhook）</h3><h2 id="ecs-服务器（阿里云）"><a href="#ecs-服务器（阿里云）" class="headerlink" title="ecs 服务器（阿里云）"></a>ecs 服务器（阿里云）</h2><h3 id="nginx-配置"><a href="#nginx-配置" class="headerlink" title="nginx 配置"></a>nginx 配置</h3><h3 id="ssl-证书（acme-sh）"><a href="#ssl-证书（acme-sh）" class="headerlink" title="ssl 证书（acme.sh）"></a>ssl 证书（acme.sh）</h3><h2 id="图片资源处理"><a href="#图片资源处理" class="headerlink" title="图片资源处理"></a>图片资源处理</h2><h3 id="oss（阿里云）"><a href="#oss（阿里云）" class="headerlink" title="oss（阿里云）"></a>oss（阿里云）</h3><h3 id="cdn（七牛云）-自定义域名"><a href="#cdn（七牛云）-自定义域名" class="headerlink" title="cdn（七牛云）+ 自定义域名"></a>cdn（七牛云）+ 自定义域名</h3>
+    <h1>从 0 到 1 部署你的博客</h1>
+    <h2 id="0️⃣-前言"><a href="#0️⃣-前言" class="headerlink" title="0️⃣ 前言"></a>0️⃣ 前言</h2><p>一直以来用阿里云的 ecs 部署了一个博客应用，但是自从进入阿里之后就一直没更新，应用也无法访问了。</p>
+<p>本身搞博客应用就是为了端到端（从前端到后端），系统地了解项目工程和流水线工作原理的，趁着有时间重新梳理一下整个过程。</p>
+<h2 id="1️⃣-环境准备"><a href="#1️⃣-环境准备" class="headerlink" title="1️⃣ 环境准备"></a>1️⃣ 环境准备</h2><p>博客项目技术方案：采用 Hexo + Node.js + Nginx 来搭建。</p>
+<p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">Hexo</a> 其实是一个静态博客框架，其实不依赖 Node.js， Hexo + Nginx 就部署出来博客，这里 Node.js 主要是为了部署 Webhooks 的服务进行自动更新，后面会展开。</p>
+<h2 id="2️⃣-搭建-Hexo-博客"><a href="#2️⃣-搭建-Hexo-博客" class="headerlink" title="2️⃣ 搭建 Hexo 博客"></a>2️⃣ 搭建 Hexo 博客</h2><h3 id="1-初始化博客"><a href="#1-初始化博客" class="headerlink" title="1. 初始化博客"></a>1. 初始化博客</h3><p>没有特殊需求的情况下，建议采用 hexo-cli 来初始化你的博客。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init blog</span><br><span class="line"><span class="built_in">cd</span> blog</span><br></pre></td></tr></table></figure>
+
+<p>目前初始化的 hexo 是 7.x 的版本，依赖使用 pnpm 管理，你也可以安装下 pnpm：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install pnpm -g</span><br><span class="line">pnpm install</span><br></pre></td></tr></table></figure>
+
+<p>本地测试使用下面命令，默认会在 4000 端口起一个服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<p>不过实际上我们部署博客不需要使用 server，可以用生成的静态 html 来访问，server 更多的是给基于 hexo 需要开发插件等使用的，比如主题。</p>
+<h3 id="2-发布新文章"><a href="#2-发布新文章" class="headerlink" title="2. 发布新文章"></a>2. 发布新文章</h3><p>hexo 的文章是 markdown 的，你可以使用命令行来创建文章，它会在 <code>source/_posts</code> 目录下创建对应文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">&quot;my-first-post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-博客主题"><a href="#3-博客主题" class="headerlink" title="3. 博客主题"></a>3. 博客主题</h3><p>具体的博客主题可以参考：<a target="_blank" rel="noopener" href="https://hexo.io/themes/">Hexo 博客主题</a>，实际上已经很少有人维护了，毕竟 hexo 本身也比较老了。</p>
+<p>我这边用了一个 <a target="_blank" rel="noopener" href="https://github.com/sabrinaluo/hexo-theme-replica">replica</a> 的仿 github 风格，实际上默认主题也是 ok 的，具体配置参考文档即可，难度不高。</p>
+<h2 id="Hexo-部署"><a href="#Hexo-部署" class="headerlink" title="Hexo 部署"></a>Hexo 部署</h2><p>hexo 会提供一些部署方案供你选择，我这边主要介绍两种：一种是部署到 Github Pages 的，适合没有自己站点，白嫖 github 的；另外一种是自己建服务器，可以部署到自己的站点，用自定义域名的。</p>
+<h2 id="3️⃣-Github-Pages-部署"><a href="#3️⃣-Github-Pages-部署" class="headerlink" title="3️⃣ Github Pages 部署"></a>3️⃣ Github Pages 部署</h2><p>hexo 提供了 <code>hexo deploy</code> 命令来部署到 Github Pages，但是需要配置下 <code>_config.yml</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 前面配置省略...</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/one-command-deployment</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">&#x27;git&#x27;</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">&#x27;git@github.com:excaliburhan/hexo-blog.git&#x27;</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">&#x27;gh-pages&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>repo 的地址可以是 ssh，也可以是 https（需要提供 token），我因为本地 mac 和 ecs 服务器都会添加 ssh key 到 github 上，所以直接用了 ssh 的形式。</p>
+<p>其他更多的用法可以参考插件配置：<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-deployer-git">hexo-deployer-git</a></p>
+<p>此外，你也需要安装在插件的 npm 依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git -S</span><br></pre></td></tr></table></figure>
+
+<p>运行 <code>hexo deploy</code> 命令，它会在你根目录创建一个 <code>.deploy_git</code> 的目录，里面会生成你的博客静态 html，然后推送到你指定的分支，这里我用了 <code>gh-pages</code>。</p>
+<p>然后我们看一下对应仓库的 Pages 配置，让他变成一个可访问的站点：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/gh.png"></p>
+<p>选择 <code> Deploy from branch</code>，分支选择 <code>gh-pages</code>，没有的话需要创建一下，当然你也可以直接选择 <code>main</code> 分支。</p>
+<p>后续推送 <code>gh-pages</code> 分支就会自动部署了，一般地址会根据你仓库来生成，比如：</p>
+<p><code>https://excaliburhan.github.io/hexo-blog</code></p>
+<p>当然你用 <code>hexo deploy</code> 之后，会自动帮你更新 <code>gh-pages</code> 分支内容的，实现自动更新。</p>
+<h2 id="4️⃣-阿里云-ECS-部署"><a href="#4️⃣-阿里云-ECS-部署" class="headerlink" title="4️⃣ 阿里云 ECS 部署"></a>4️⃣ 阿里云 ECS 部署</h2><p>一般想要玩一下个人网站的话，可以参考下 ECS 这个方案，首先你得有一台 ECS 服务器：<a target="_blank" rel="noopener" href="https://www.aliyun.com/product/ecs">阿里云 ECS</a>。</p>
+<p>进入购买页面，个人站点没啥特别要求的，建议直接买这个配置：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/buy-ecs.png"></p>
+<p>目前是有 2C2G 3M 带宽 99 元的套餐的，还是比较划算的，而且第二年续费也能享受 99 元活动。我因为已经续费过了，现在界面不显示对应活动了。</p>
+<p>镜像我就直接选了 Alibaba Cloud Linux，是基于 CentOS 继续维护的（CentOS 后续不维护了）。</p>
+<h3 id="登录-ECS"><a href="#登录-ECS" class="headerlink" title="登录 ECS"></a>登录 ECS</h3><p>登录 ECS 有很多种选择，你可以通过通过 ECS 的控制台直接进入，比如 Workbench 方式：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/ecs-workbench.png"></p>
+<p>进入之后就是一个 Web 版的 SSH 终端，当然你也可以通过 SSH 登录，那我建议你参考一下这个 <a target="_blank" rel="noopener" href="https://help.aliyun.com/zh/ecs/user-guide/bind-a-key-pair-to-enable-ssh-passwordless-logon?spm=a2c4g.11186623.help-menu-25365.d_4_1_4_2_0.229629d40xsNAY&scm=20140722.H_2857275._.OR_help-T_cn~zh-V_1">SSH 免登文档</a>。</p>
+<p>默认 ECS 的安全组应该是开放了 80、443 端口的，这是后续访问 HTTP、HTTPS 必须配置的。如果没有的话，你也可以通过 <code>安全组 - 快速添加</code> 直接生成一个安全组策略。</p>
+<h3 id="安装必要依赖"><a href="#安装必要依赖" class="headerlink" title="安装必要依赖"></a>安装必要依赖</h3><h4 id="1-安装-git"><a href="#1-安装-git" class="headerlink" title="1. 安装 git"></a>1. 安装 git</h4><p>安装一下必要的环境和依赖，首先安装下 git：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y git</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-安装-nvm-和-node"><a href="#2-安装-nvm-和-node" class="headerlink" title="2. 安装 nvm 和 node"></a>2. 安装 nvm 和 node</h4><p>安装 node，我这里安装了 <a target="_blank" rel="noopener" href="https://github.com/nvm-sh/nvm">nvm</a> 来进行 node 版本管理：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash</span><br></pre></td></tr></table></figure>
+
+<p>然后安装 node，推荐使用 lts 版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nvm install --lts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 node 版本</span></span><br><span class="line"><span class="comment"># v22.17.0</span></span><br><span class="line">node -v</span><br></pre></td></tr></table></figure>
+
+<p>顺便安装在 pnpm：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g pnpm</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-安装-zsh"><a href="#3-安装-zsh" class="headerlink" title="3. 安装 zsh"></a>3. 安装 zsh</h4><p>安装一下 zsh：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y zsh</span><br></pre></td></tr></table></figure>
+
+<p>切换成 zsh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
+
+<p>当然也可以考虑安装 <a target="_blank" rel="noopener" href="https://github.com/ohmyzsh/ohmyzsh">oh-my-zsh</a>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装和配置-Nginx"><a href="#安装和配置-Nginx" class="headerlink" title="安装和配置 Nginx"></a>安装和配置 Nginx</h3><p>安装一下 <code>Nginx</code> 来做 HTTP 和反向代理的管理：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y nginx</span><br></pre></td></tr></table></figure>
+
+<p>配置 Nginx，这里我直接使用默认配置，然后启动 Nginx：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start nginx</span><br></pre></td></tr></table></figure>
+
+<p>这时候你可以用公网 IP 访问 80 端口，如果能访问到 Nginx 页面，说明配置成功。</p>
+<h3 id="结合-acme-sh-生成-ssl-证书"><a href="#结合-acme-sh-生成-ssl-证书" class="headerlink" title="结合 acme.sh 生成 ssl 证书"></a>结合 acme.sh 生成 ssl 证书</h3><p>现在网站一般都需要 https 了，需要生成 ssl 证书，这里我使用 <code>acme.sh</code> 来生成。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/acmesh-official/acme.sh">acme.sh</a> 是一个免费、开源的证书生成工具，可以自动生成证书，然后自动更新证书。</p>
+<h4 id="1-安装-acme-sh"><a href="#1-安装-acme-sh" class="headerlink" title="1. 安装 acme.sh"></a>1. 安装 acme.sh</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl  https://get.acme.sh | sh</span><br></pre></td></tr></table></figure>
+
+<p>可以设置一下 alias，方便以后使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;alias acme.sh=~/.acme.sh/acme.sh&#x27;</span> &gt;&gt; ~/.zshrc &amp;&amp; <span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-设置默认-CA"><a href="#2-设置默认-CA" class="headerlink" title="2. 设置默认 CA"></a>2. 设置默认 CA</h4><p><code>acme.sh</code> 现在被 zeroSSL 收购了，而 zeroSSL 需要注册账号，我还是比较习惯 letsencrypt，所以默认 CA 设置成 letsencrypt</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --set-default-ca  --server  letsencrypt</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-验证签发证书"><a href="#3-验证签发证书" class="headerlink" title="3. 验证签发证书"></a>3. 验证签发证书</h4><p>生成 ssl 证书有多种方式，比如 <code>webroot</code>、<code>nginx</code>、<code>dns</code> 等，可以参考这个 <a target="_blank" rel="noopener" href="https://github.com/acmesh-official/acme.sh/wiki/How-to-issue-a-cert">issue 证书文档</a></p>
+<p>不过实践下来，感觉还是 webroot 比较方便，一方面我们因为 http 的访问地址一般都会 rewrite 到 https，<code>nginx</code> 可能会因此失败；另一方面需要自动更新，<code>dns</code> 方案比较麻烦，尤其是 aliyun 的 api 我试了经常失败。</p>
+<p>我需要配置的域名是： <code>excaliburhan.com</code> 、 <code>www.excaliburhan.com</code> 和 <code>api.excaliburhan.com</code>。我们先修改下创建一下 web 文件目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p /home/www/letsencrypt</span><br></pre></td></tr></table></figure>
+
+<p>修改下 nginx 的配置：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># http 配置</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">	<span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">	<span class="attribute">server_name</span> example.com www.example.com;</span><br><span class="line"></span><br><span class="line">	<span class="section">location</span> /.well-known/acme-challenge &#123;</span><br><span class="line">		<span class="attribute">root</span> /home/www/letsencrypt;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="section">location</span> / &#123;</span><br><span class="line">		<span class="attribute">rewrite</span><span class="regexp">	^/(.*)$</span> https://<span class="variable">$host</span>/<span class="variable">$1</span> <span class="literal">permanent</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>签发证书：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --issue -d excaliburhan.com -d www.excaliburhan.com -d api.excaliburhan.com -w /home/www/letsencrypt</span><br></pre></td></tr></table></figure>
+
+<p><code>-w</code> 的地址可以根据你的需要做对应调整。</p>
+<p>最后签发成功之后如图：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/ssl-issue.png"></p>
+<h4 id="4-安装证书到-nginx-目录"><a href="#4-安装证书到-nginx-目录" class="headerlink" title="4. 安装证书到 nginx 目录"></a>4. 安装证书到 nginx 目录</h4><p>一般我们会安装证书到 nginx 目录，后续自动更新也会自动执行这个过程：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --install-cert -d excaliburhan.com -d www.excaliburhan.com -d api.excaliburhan.com \</span><br><span class="line">--key-file       /etc/nginx/conf/certs/excaliburhan.com.key  \</span><br><span class="line">--fullchain-file /etc/nginx/conf/certs/excaliburhan.com.crt \</span><br><span class="line">--ca-file         /etc/nginx/conf/certs/excaliburhan.com.ca.crt \</span><br><span class="line">--reloadcmd     <span class="string">&quot;systemctl restart nginx&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>key-file</code> 这些的目录地址可以根据你实际需要去修改。</p>
+<h4 id="5-修改-nginx-https-的配置"><a href="#5-修改-nginx-https-的配置" class="headerlink" title="5. 修改 nginx https 的配置"></a>5. 修改 nginx https 的配置</h4><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">443</span> ssl http2 reuseport;</span><br><span class="line">  <span class="attribute">server_name</span> excaliburhan.com www.excaliburhan.com;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># cert 证书</span></span><br><span class="line">  <span class="attribute">ssl_certificate</span> /etc/nginx/conf/certs/excaliburhan.com.crt;</span><br><span class="line">  <span class="attribute">ssl_certificate_key</span> /etc/nginx/conf/certs/excaliburhan.com.key;</span><br><span class="line">  <span class="attribute">ssl_trusted_certificate</span> /etc/nginx/conf/certs/excaliburhan.com.ca.crt;</span><br><span class="line"></span><br><span class="line">  <span class="section">location</span> / &#123;</span><br><span class="line">    <span class="comment"># 博客目录，根据实际情况修改</span></span><br><span class="line">    <span class="attribute">root</span> /home/hexo-blog/public;</span><br><span class="line">    <span class="attribute">index</span> index.html index.htm;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后重启一下 nginx <code>systemctl restart nginx</code>。</p>
+<h4 id="6-acme-sh-自动更新"><a href="#6-acme-sh-自动更新" class="headerlink" title="6. acme.sh 自动更新"></a>6. acme.sh 自动更新</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --auto-upgrade</span><br><span class="line"><span class="comment"># acme.sh --upgrade --auto-upgrade</span></span><br><span class="line"><span class="comment"># --upgrade 会拉取 github 的代码进行更新，有时候会比较慢，我是没开的</span></span><br></pre></td></tr></table></figure>
+
+<p>acme.sh 默认会给你创建一条 crontab 的任务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">crontab -l</span><br><span class="line"><span class="comment"># 每个人会有点不同，比如我是每天 0 点 53 分执行</span></span><br><span class="line"><span class="comment"># 53 0 * * * &quot;/root/.acme.sh&quot;/acme.sh --cron --home &quot;/root/.acme.sh&quot; &gt; /dev/null</span></span><br></pre></td></tr></table></figure>
+
+<p>letsencrypt 证书有效期是 90 天，acme.sh 默认自动更新是 60 天后更新，如果没到则会直接跳过，你可以在通过下面命令具体 Renew 的时间：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --list</span><br><span class="line"><span class="comment"># Main_Domain       KeyLength  SAN_Domains                                CA               Created               Renew</span></span><br><span class="line"><span class="comment"># excaliburhan.com  &quot;2048&quot;     www.excaliburhan.com,api.excaliburhan.com  LetsEncrypt.org  2025-07-18T07:27:56Z  2025-09-16T07:27:56Z</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="DNS-解析配置"><a href="#DNS-解析配置" class="headerlink" title="DNS 解析配置"></a>DNS 解析配置</h3><p>你需要 DNS 的服务商来进行 DNS 解析，从而可以通过你的域名来访问网站，我这里用了阿里云的 DNS 服务。你可以参考：<a target="_blank" rel="noopener" href="https://dnsnext.console.aliyun.com/authoritative/domains/?GroupId=-2">DNS 解析</a></p>
+<p>一般来说，你需要 3 条记录，<code>*</code>、<code>@</code> 和 <code>www</code>，记录值就是你的公网 IP：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/dns.png">。</p>
+<p>这时候，你就可以用 https 的方式访问你的网站了。</p>
+<h2 id="5️⃣-Github-Webhooks-自动更新"><a href="#5️⃣-Github-Webhooks-自动更新" class="headerlink" title="5️⃣ Github Webhooks 自动更新"></a>5️⃣ Github Webhooks 自动更新</h2><p>上面阿里云 ECS 部署篇幅比较长，所以这部分自动更新的单独放在一起说了。</p>
+<p>首先你可以简单了解下文档：<a target="_blank" rel="noopener" href="https://docs.github.com/en/webhooks/using-webhooks">Github Webhooks</a>。</p>
+<h3 id="1-创建-Webhooks"><a href="#1-创建-Webhooks" class="headerlink" title="1. 创建 Webhooks"></a>1. 创建 Webhooks</h3><p>通过 <code>仓库 - Settings - Webhooks</code>，创建一个新的 Webhook，创建完成后，后续你 push 仓库的时候就会触发这个 Webhook。</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/github-webhooks.png" alt="github-webhooks"></p>
+<p>利用触发的 Webhook 自动拉取最新代码和你的博客内容，从而实现自动更新的效果。</p>
+<h3 id="2-API-Server"><a href="#2-API-Server" class="headerlink" title="2. API Server"></a>2. API Server</h3><p>你需要一个自己的 api server 应用，可以使用 <code>Express</code> 或者简单的 <code>Node Http Server</code>，这里具体逻辑就不展开了，推荐两种方案：</p>
+<ul>
+<li><p>Express 这类需要自己处理的，可以借助 <a target="_blank" rel="noopener" href="https://github.com/octokit/webhooks">@octokit&#x2F;webhooks</a> 来完成验签这类工作，会轻松很多</p>
+</li>
+<li><p>Node Http Server 可以使用 <a target="_blank" rel="noopener" href="https://github.com/rvagg/github-webhook">github-webhook</a>，直接安装依赖启动即可，比如：</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">github-webhook \</span><br><span class="line">  --port=9999 \</span><br><span class="line">  --path=/webhook \</span><br><span class="line">  --secret=mygithubsecret \</span><br><span class="line">  --<span class="built_in">log</span>=/var/log/webhook.log \</span><br><span class="line">  --rule=<span class="string">&#x27;push:ref == refs/heads/master &amp;&amp; repository.name == myrepo:echo &quot;yay!&quot;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>对应的 <code>echo &quot;yay!&quot;</code> 更换成你需要执行的 <code>sh</code> 脚本即可，比如这样，进入对应目录，拉取最新代码，然后执行 <code>npm run build</code>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/hexo-blog</span><br><span class="line">git pull</span><br><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>当然最好的还是自己写 API Server，可以定制自己的一些逻辑。</p>
+<h3 id="3-PM2-守护进程"><a href="#3-PM2-守护进程" class="headerlink" title="3. PM2 守护进程"></a>3. PM2 守护进程</h3><p>无论是何种方式，Webhooks 本质都是一个 Node 的服务，最好使用 <code>PM2</code> 这样的守护进程：</p>
+<ul>
+<li>服务挂了之后自动重启</li>
+<li>自带一些日志能力</li>
+</ul>
+<h2 id="6️⃣-图片资源处理"><a href="#6️⃣-图片资源处理" class="headerlink" title="6️⃣ 图片资源处理"></a>6️⃣ 图片资源处理</h2><p>为了更好的体验，常规上我们会把图片放在 OSS 或者 CDN 来进行一些资源优化，下面我主要介绍一下 <code>阿里云 OSS</code> 和 <code>七牛云 CDN</code> 的方案。</p>
+<h3 id="阿里云-OSS"><a href="#阿里云-OSS" class="headerlink" title="阿里云 OSS"></a>阿里云 OSS</h3><p>开通 OSS 服务之后，配置一下 <a target="_blank" rel="noopener" href="https://oss.console.aliyun.com/bucket">OSS Bucket</a>：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/oss.png" alt="oss"></p>
+<p>几个要点：</p>
+<ul>
+<li>地域：选择有地域属性，计费会更低一点，国内场景够用了</li>
+<li>存储类型：标准存储，当然你也可以选择 <code>低频访问</code>、<code>归档存储</code>，能力和计费上都有一点区别</li>
+<li>存储冗余类型：本地冗余存储足够了</li>
+</ul>
+<p>上传图片你会得到类似的 oss 地址：<code>https://xp-assets.oss-cn-hangzhou.aliyuncs.com/gakki.jpg</code>。</p>
+<p>当然 oss 是不支持图片压缩的，也无法根据用户所在地提供最近的地址，这些需要开启 CDN 服务。阿里云的 CDN 现在基本没有白嫖证书了，下面介绍七牛云的方案。</p>
+<h3 id="七牛云-CDN-自定义域名-免费证书"><a href="#七牛云-CDN-自定义域名-免费证书" class="headerlink" title="七牛云 CDN + 自定义域名 + 免费证书"></a>七牛云 CDN + 自定义域名 + 免费证书</h3><p>开启 CDN 前提是需要 OSS 存储服务的，七牛云也有类似的服务，这里就不展开了，可以直接参考 <a target="_blank" rel="noopener" href="https://www.qiniu.com/products/kodo">七牛云 Kodo</a>。</p>
+<p>如果需要通过类似自定义域名访问：<code>https://static.excaliburhan.com/gakki.jpg</code>，首先你需要一个 CA 证书。七牛云是可以白嫖这种证书的，但是有效期只有 90 天。</p>
+<h4 id="1-购买证书"><a href="#1-购买证书" class="headerlink" title="1. 购买证书"></a>1. 购买证书</h4><p>选择 TrustAisa 的 DV 限免证书，0 元下单：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/qn-ca.png" alt="qn-ca"></p>
+<p>购买之后需要你填写对应的信息，我这里验证方式选了 <code>DNS</code>，加密算法选了 RSA，ECC 会有一些兼容性的情况：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/qn-fill-ca.png" alt="qn-fill-ca"></p>
+<h4 id="2-DNS-验证"><a href="#2-DNS-验证" class="headerlink" title="2. DNS 验证"></a>2. DNS 验证</h4><p>当你填写完基本信息之后，需要你去 DNS 解析增加记录，保证能够完整验证，否则就会一直审核中了。</p>
+<p>主机记录和记录值都会在你的购买订单里显示给你，创建一个 <code>TXT</code> 记录，验证成功后等待订单生效即可：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/qn-dns.png" alt="qn-dns"></p>
+<h4 id="3-配置域名"><a href="#3-配置域名" class="headerlink" title="3. 配置域名"></a>3. 配置域名</h4><p>然后你可以通过域名管理，新增刚才申请的域名，按照要求填写信息即可：</p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/qn-domain.png" alt="qn-domain"></p>
+<p>对应的源站选择你的七牛云存储即可。等待七牛云域名管理生效之后，就可以使用类似地址进行访问了：</p>
+<p><code>https://static.excaliburhan.com/gakki.jpg</code>。</p>
+<h4 id="4-自动更新免费证书？"><a href="#4-自动更新免费证书？" class="headerlink" title="4. 自动更新免费证书？"></a>4. 自动更新免费证书？</h4><p>查了一下七牛云的 API 和相关页面，貌似没有自动更新免费证书的能力（或者说复杂度太高）。</p>
+<p>当然在域名管理里看到可以授权七牛云代申请免费证书的入口：<code>域名管理 - HTTPS 配置 - 修改配置</code></p>
+<p><img src="https://xp-assets.oss-cn-hangzhou.aliyuncs.com/img/blog/qn-free.png" alt="qn-free"></p>
+<p>这种方式需要你在 DNS 解析添加一条 <code>CNAME</code> 的记录，看起来并没有自动更新的能力，所以大概率 90 天后你还需要手动执行这个过程。</p>
+<h2 id="7️⃣-总结"><a href="#7️⃣-总结" class="headerlink" title="7️⃣ 总结"></a>7️⃣ 总结</h2><p>整个过程下来还是踩了不少坑，一方面是因为太久没搞这种从前到后的工程了，另外一方面 acme.sh 的证书签发方式按照文档也会遇到一些实际问题。</p>
+<p>不过整体弄完效果还是可以的，但大概率这一篇博客之后，又会进入长期休眠状态了 😃</p>
+
   </article>
 </div>
 
