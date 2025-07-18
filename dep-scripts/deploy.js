@@ -80,6 +80,8 @@ async function runCommand(command, cwd) {
     await runCommand('git pull', BLOG_DIR);
     await runCommand('npm run build', BLOG_DIR);
     console.log('🎉 构建流程完成！\n');
+    await runCommand('hexo deploy');
+    console.log('🎉 完成完整博客部署！\n');
   } catch (error) {
     console.error('❌ 部署失败:', error.message);
     process.exit(1);
